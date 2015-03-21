@@ -1,2 +1,2 @@
 # skyrim-alchimy-calc
-Calculator for TES5:Skyrim Alchimy
+Калькулятор алхимика для TES5:Skyrim
