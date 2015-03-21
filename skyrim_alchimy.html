@@ -170,7 +170,7 @@ input[type=checkbox] {vertical-align: middle;}
 <script type="text/javascript" src="./files/jquery.tablesorter.min.js"></script>
 
 <script type="text/javascript">
-var filteredDefault = [18,20,80,69,38,7,6,36, 35,45,46,63,64,42,62,77];
+var filteredDefault = [19,24,26,33,38,63,64];
 var filteredIngredients = filteredDefault;
 
 // filtered check
@@ -182,6 +182,64 @@ var effectsWarning = [
 "Повышение навыка: Зачарование",
 "Повышение навыка: Кузнечное дело",
 ]
+
+var effectsPositive = {
+"Исцеление болезней":true,
+"Урон здоровью":false,
+"Урон магии":false,
+"Повреждение регенерации магии":false,
+"Урон запасу сил":false,
+"Повреждение регенерации запаса сил":false,
+"Страх":false,
+"Повышение навыка: Изменение":true,
+"Повышение искусства торговли":true,
+"Повышение навыка: Блокирование":true,
+"Повышение переносимого веса":true,
+"Повышение навыка: Колдовство":true,
+"Повышение навыка: Разрушение":true,
+"Повышение навыка: Зачарование":true,
+"Повышение здоровья":true,
+"Повышение навыка: Тяжелая броня":true,
+"Повышение навыка: Иллюзия":true,
+"Повышение навыка: Легкая броня":true,
+"Повышение навыка: Взлом":true,
+"Повышение магии":true,
+"Повышение искусства лучника":true,
+"Повышение навыка: Одноручное оружие":true,
+"Повышение навыка: Карманные кражи":true,
+"Повышение навыка: Восстановление":true,
+"Повышение навыка: Кузнечное дело":true,
+"Повышение навыка: Скрытность":true,
+"Повышение запаса сил":true,
+"Повышение навыка: Двуручное оружие":true,
+"Бешенство":false,
+"Невидимость":true,
+"Затяжной урон здоровью":false,
+"Затяжной урон магии":false,
+"Затяжной урон запасу сил":false,
+"Паралич":false,
+"Опустошение здоровья":false,
+"Опустошение магии":false,
+"Опустошение запаса сил":false,
+"Регенерация здоровья":true,
+"Регенерация магии":true,
+"Регенерация запаса сил":true,
+"Сопротивление огню":true,
+"Сопротивление холоду":true,
+"Сопротивление магии":true,
+"Сопротивление ядам":true,
+"Сопротивление электричеству":true,
+"Восстановление здоровья":true,
+"Восстановление магии":true,
+"Восстановление запаса сил":true,
+"Замедление":false,
+"Водное дыхание":true,
+"Уязвимость к огню":false,
+"Уязвимость к холоду":false,
+"Уязвимость к магии":false,
+"Уязвимость к яду":false,
+"Уязвимость к электричеству":false,
+}
 
 var effectsPrice = {
 "Исцеление болезней":7,
@@ -251,6 +309,114 @@ function culcEPrice(effects) {
 	for (var i in effects)
 		price += effectsPrice[effects[i]];
 	return price;
+}
+</script>
+
+<script type="text/javascript">
+var ingredientsList = {
+1:{ingredient:"Абесинский окунь", effects:["Уязвимость к холоду", "Повышение навыка: Скрытность", "Уязвимость к яду", "Повышение навыка: Восстановление"], weight:"0.5", price:"15"},
+2:{ingredient:"Алый корень Нирна", effects:["Урон здоровью", "Урон запасу сил", "Невидимость", "Сопротивление магии"], weight:"0.2", price:"10"},
+3:{ingredient:"Белянка", effects:["Уязвимость к холоду", "Повышение навыка: Тяжелая броня", "Восстановление магии", "Опустошение магии"], weight:"0.3", price:"0"},
+4:{ingredient:"Бесовский гриб", effects:["Урон здоровью", "Затяжной урон здоровью", "Паралич", "Восстановление здоровья"], weight:"0.3", price:"0"},
+5:{ingredient:"Бойцовая рыбка", effects:["Урон здоровью", "Повышение навыка: Изменение", "Замедление", "Повышение переносимого веса"], weight:"0.25", price:"15"},
+6:{ingredient:"Болотный стручок", effects:["Сопротивление электричеству", "Затяжной урон магии", "Паралич", "Восстановление здоровья"], weight:"0.25", price:"5"},
+7:{ingredient:"Большие рога", effects:["Восстановление запаса сил", "Повышение запаса сил", "Замедление", "Повреждение регенерации запаса сил"], weight:"0.1", price:"2"},
+8:{ingredient:"Бородатый мох", effects:["Урон магии", "Повышение здоровья", "Повреждение регенерации магии", "Повышение навыка: Одноручное оружие"], weight:"0.25", price:"1"},
+9:{ingredient:"Вересковое сердце", effects:["Восстановление магии", "Повышение навыка: Блокирование", "Паралич", "Повышение магии"], weight:"0.5", price:"20"},
+10:{ingredient:"Ветка чертополоха", effects:["Сопротивление холоду", "Опустошение запаса сил", "Сопротивление ядам", "Повышение навыка: Тяжелая броня"], weight:"0.1", price:"1"},
+11:{ingredient:"Виноград джазби", effects:["Уязвимость к магии", "Повышение магии", "Регенерация магии", "Опустошение здоровья"], weight:"0.2", price:"1"},
+12:{ingredient:"Гигантский лишайник", effects:["Уязвимость к электричеству", "Опустошение здоровья", "Уязвимость к яду", "Восстановление магии"], weight:"0.25", price:"5"},
+13:{ingredient:"Глаз саблезуба", effects:["Восстановление запаса сил", "Опустошение здоровья", "Урон магии", "Восстановление здоровья"], weight:"0.1", price:"2"},
+14:{ingredient:"Гниль Намиры", effects:["Урон магии", "Повышение навыка: Взлом", "Страх", "Регенерация здоровья"], weight:"0.25", price:"0"},
+15:{ingredient:"Голубой горноцвет", effects:["Восстановление здоровья", "Повышение навыка: Колдовство", "Повышение здоровья", "Повреждение регенерации магии"], weight:"0.1", price:"2"},
+16:{ingredient:"Двемерское масло", effects:["Уязвимость к магии", "Повышение навыка: Иллюзия", "Регенерация магии", "Восстановление магии"], weight:"0.25", price:"15"},
+17:{ingredient:"Жареная злокрысья кожа", effects:["Восстановление запаса сил", "Исцеление болезней", "Сопротивление ядам", "Восстановление здоровья"], weight:"0.5", price:"1"},
+18:{ingredient:"Жемчужина", effects:["Восстановление запаса сил", "Повышение навыка: Блокирование", "Восстановление магии", "Сопротивление электричеству"], weight:"0.1", price:"2"},
+19:{ingredient:"Живица сприггана", effects:["Повреждение регенерации магии", "Повышение навыка: Зачарование", "Повышение навыка: Кузнечное дело", "Повышение навыка: Изменение"], weight:"0.2", price:"15"},
+20:{ingredient:"Жир тролля", effects:["Сопротивление ядам", "Повышение навыка: Двуручное оружие", "Бешенство", "Урон здоровью"], weight:"1", price:"15"},
+21:{ingredient:"Зубы ледяного привидения", effects:["Уязвимость к холоду", "Повышение навыка: Тяжелая броня", "Невидимость", "Уязвимость к огню"], weight:"0.25", price:"30"},
+22:{ingredient:"Икра рыбы-убийцы", effects:["Сопротивление ядам", "Повышение навыка: Карманные кражи", "Затяжной урон здоровью", "Повышение запаса сил"], weight:"0.2", price:"3"},
+23:{ingredient:"Клешня грязевого краба", effects:["Восстановление запаса сил", "Исцеление болезней", "Сопротивление ядам", "Сопротивление огню"], weight:"0.25", price:"2"},
+24:{ingredient:"Клык саблезуба", effects:["Восстановление запаса сил", "Повышение навыка: Тяжелая броня", "Повышение навыка: Кузнечное дело", "Уязвимость к яду"], weight:"0.1", price:"2"},
+25:{ingredient:"Клюв ястреба", effects:["Восстановление запаса сил", "Сопротивление холоду", "Повышение переносимого веса", "Сопротивление электричеству"], weight:"0.25", price:"15"},
+26:{ingredient:"Коготь ворожеи", effects:["Сопротивление магии", "Затяжной урон магии", "Повышение навыка: Зачарование", "Повышение искусства торговли"], weight:"0.25", price:"20"},
+27:{ingredient:"Корень Нирна", effects:["Урон здоровью", "Урон запасу сил", "Невидимость", "Сопротивление магии"], weight:"0.2", price:"10"},
+28:{ingredient:"Костная мука", effects:["Урон запасу сил", "Сопротивление огню", "Повышение навыка: Колдовство", "Опустошение запаса сил"], weight:"0.5", price:"5"},
+29:{ingredient:"Красный горноцвет", effects:["Восстановление магии", "Опустошение магии", "Повышение магии", "Урон здоровью"], weight:"0.1", price:"2"},
+30:{ingredient:"Кровавый венец", effects:["Уязвимость к огню", "Повышение навыка: Блокирование", "Уязвимость к яду", "Сопротивление магии"], weight:"0.3", price:"10"},
+31:{ingredient:"Крыло лунного мотылька", effects:["Урон магии", "Повышение навыка: Легкая броня", "Регенерация здоровья", "Невидимость"], weight:"0.1", price:"5"},
+32:{ingredient:"Крыло монарха", effects:["Восстановление здоровья", "Повышение искусства торговли", "Затяжной урон запасу сил", "Урон магии"], weight:"0.1", price:"3"},
+33:{ingredient:"Крыло синей бабочки", effects:["Урон запасу сил", "Повышение навыка: Колдовство", "Повреждение регенерации магии", "Повышение навыка: Зачарование"], weight:"0.1", price:"2"},
+34:{ingredient:"Куриное яйцо", effects:["Сопротивление магии", "Повреждение регенерации магии", "Водное дыхание", "Затяжной урон запасу сил"], weight:"0.5", price:"2"},
+35:{ingredient:"Лаванда", effects:["Сопротивление магии", "Повышение запаса сил", "Опустошение магии", "Повышение навыка: Колдовство"], weight:"0.1", price:"1"},
+36:{ingredient:"Лиловый горноцвет", effects:["Восстановление запаса сил", "Повышение навыка: Скрытность", "Затяжной урон магии", "Сопротивление холоду"], weight:"0.1", price:"2"},
+37:{ingredient:"Лунный сахар", effects:["Уязвимость к огню", "Сопротивление холоду", "Восстановление магии", "Регенерация магии"], weight:"0.25", price:"50"},
+38:{ingredient:"Лютый гриб", effects:["Урон запасу сил", "Бешенство", "Восстановление здоровья", "Повышение навыка: Кузнечное дело"], weight:"0.2", price:"12"},
+39:{ingredient:"Маленькая жемчужина", effects:["Восстановление запаса сил", "Повышение навыка: Одноручное оружие", "Повышение навыка: Восстановление", "Сопротивление холоду"], weight:"0.1", price:"2"},
+40:{ingredient:"Маленькие рога", effects:["Уязвимость к яду", "Повышение навыка: Восстановление", "Затяжной урон запасу сил", "Урон здоровью"], weight:"0.1", price:"2"},
+41:{ingredient:"Медвежьи когти", effects:["Восстановление запаса сил", "Повышение здоровья", "Повышение навыка: Одноручное оружие", "Повреждение регенерации магии"], weight:"0.1", price:"2"},
+42:{ingredient:"Медовые соты", effects:["Восстановление запаса сил", "Повышение навыка: Блокирование", "Повышение навыка: Легкая броня", "Опустошение запаса сил"], weight:"1", price:"5"},
+43:{ingredient:"Мора тапинелла", effects:["Восстановление магии", "Затяжной урон здоровью", "Регенерация запаса сил", "Повышение навыка: Иллюзия"], weight:"0.25", price:"4"},
+44:{ingredient:"Морозная мириам", effects:["Сопротивление холоду", "Повышение навыка: Скрытность", "Опустошение магии", "Повреждение регенерации запаса сил"], weight:"0.1", price:"1"},
+45:{ingredient:"Морозная соль", effects:["Уязвимость к огню", "Сопротивление холоду", "Восстановление магии", "Повышение навыка: Колдовство"], weight:"0.25", price:"100"},
+46:{ingredient:"Морской желудь", effects:["Урон магии", "Водное дыхание", "Регенерация здоровья", "Повышение навыка: Карманные кражи"], weight:"0.2", price:"5"},
+47:{ingredient:"Мухомор", effects:["Сопротивление огню", "Повышение навыка: Двуручное оружие", "Бешенство", "Регенерация запаса сил"], weight:"0.1", price:"2"},
+48:{ingredient:"Огненная соль", effects:["Уязвимость к холоду", "Сопротивление огню", "Восстановление магии", "Регенерация магии"], weight:"0.25", price:"50"},
+49:{ingredient:"Оранжевая стрекоза", effects:["Восстановление запаса сил", "Опустошение магии", "Повышение навыка: Карманные кражи", "Затяжной урон здоровью"], weight:"0.1", price:"1"},
+50:{ingredient:"Палец великана", effects:["Урон запасу сил", "Повышение здоровья", "Повышение переносимого веса", "Повреждение регенерации запаса сил"], weight:"1", price:"20"},
+51:{ingredient:"Паслен", effects:["Урон здоровью", "Повреждение регенерации магии", "Затяжной урон запасу сил", "Повышение навыка: Разрушение"], weight:"0.1", price:"8"},
+52:{ingredient:"Паучье яйцо", effects:["Урон запасу сил", "Повреждение регенерации магии", "Повышение навыка: Взлом", "Повышение искусства лучника"], weight:"0.2", price:"5"},
+53:{ingredient:"Пелена дымка", effects:["Восстановление запаса сил", "Повышение навыка: Разрушение", "Повышение переносимого веса", "Сопротивление магии"], weight:"0.1", price:"2"},
+54:{ingredient:"Перья ворожеи", effects:["Урон магии", "Повышение навыка: Колдовство", "Бешенство", "Уязвимость к электричеству"], weight:"0.1", price:"20"},
+55:{ingredient:"Перья ястреба", effects:["Исцеление болезней", "Повышение навыка: Легкая броня", "Повышение навыка: Одноручное оружие", "Повышение навыка: Скрытность"], weight:"0.1", price:"15"},
+56:{ingredient:"Ползучая лоза", effects:["Восстановление магии", "Повреждение регенерации запаса сил", "Повышение переносимого веса", "Уязвимость к магии"], weight:"0.2", price:"1"},
+57:{ingredient:"Прах вампира", effects:["Невидимость", "Восстановление магии", "Регенерация здоровья", "Исцеление болезней"], weight:"0.2", price:"25"},
+58:{ingredient:"Пушица", effects:["Сопротивление магии", "Повышение магии", "Повышение навыка: Блокирование", "Повышение искусства торговли"], weight:"0.1", price:"1"},
+59:{ingredient:"Пчела", effects:["Восстановление запаса сил", "Опустошение запаса сил", "Регенерация запаса сил", "Уязвимость к электричеству"], weight:"0.1", price:"3"},
+60:{ingredient:"Пчелиное гнездо", effects:["Сопротивление ядам", "Повышение навыка: Легкая броня", "Повышение навыка: Скрытность", "Повышение навыка: Разрушение"], weight:"1", price:"5"},
+61:{ingredient:"Пшеница", effects:["Восстановление здоровья", "Повышение здоровья", "Повреждение регенерации запаса сил", "Затяжной урон магии"], weight:"0.1", price:"5"},
+62:{ingredient:"Светящаяся пыль", effects:["Урон магии", "Повреждение регенерации магии", "Повышение навыка: Разрушение", "Сопротивление электричеству"], weight:"0.5", price:"20"},
+63:{ingredient:"Светящийся гриб", effects:["Сопротивление электричеству", "Повышение навыка: Разрушение", "Повышение навыка: Кузнечное дело", "Повышение здоровья"], weight:"0.2", price:"5"},
+64:{ingredient:"Сердце даэдра", effects:["Восстановление здоровья", "Повреждение регенерации запаса сил", "Урон магии", "Страх"], weight:"0.5", price:"250"},
+65:{ingredient:"Серебристый окунь", effects:["Восстановление запаса сил", "Повреждение регенерации запаса сил", "Опустошение здоровья", "Сопротивление холоду"], weight:"0.25", price:"15"},
+66:{ingredient:"Синяя стрекоза", effects:["Сопротивление электричеству", "Повышение навыка: Карманные кражи", "Восстановление здоровья", "Страх"], weight:"0.1", price:"1"},
+67:{ingredient:"Сиродильский лопатохвост", effects:["Урон запасу сил", "Повышение навыка: Восстановление", "Страх", "Опустошение здоровья"], weight:"0.25", price:"15"},
+68:{ingredient:"Снежные ягоды", effects:["Сопротивление огню", "Повышение навыка: Зачарование", "Сопротивление холоду", "Сопротивление электричеству"], weight:"0.1", price:"4"},
+69:{ingredient:"Собачий корень", effects:["Урон запасу сил", "Повышение навыка: Одноручное оружие", "Повышение искусства лучника", "Паралич"], weight:"0.1", price:"5"},
+70:{ingredient:"Соль", effects:["Уязвимость к магии", "Повышение навыка: Восстановление", "Замедление", "Регенерация магии"], weight:"0.2", price:"2"},
+71:{ingredient:"Соль пустоты", effects:["Уязвимость к электричеству", "Сопротивление магии", "Урон здоровью", "Повышение магии"], weight:"0.2", price:"125"},
+72:{ingredient:"Стержневой корень", effects:["Уязвимость к магии", "Повышение навыка: Иллюзия", "Регенерация магии", "Восстановление магии"], weight:"0.5", price:"15"},
+73:{ingredient:"Толченый бивень мамонта", effects:["Восстановление запаса сил", "Повышение навыка: Скрытность", "Уязвимость к огню", "Страх"], weight:"0.1", price:"2"},
+74:{ingredient:"Торакс светлячка", effects:["Восстановление запаса сил", "Затяжной урон магии", "Уязвимость к магии", "Повышение запаса сил"], weight:"0.1", price:"1"},
+75:{ingredient:"Травяной стручок", effects:["Сопротивление ядам", "Опустошение магии", "Повышение навыка: Изменение", "Восстановление магии"], weight:"0.1", price:"1"},
+76:{ingredient:"Ухо фалмера", effects:["Урон здоровью", "Бешенство", "Сопротивление ядам", "Повышение навыка: Взлом"], weight:"0.2", price:"10"},
+77:{ingredient:"Хвост злокрыса", effects:["Повреждение регенерации запаса сил", "Опустошение здоровья", "Урон здоровью", "Повышение навыка: Легкая броня"], weight:"0.2", price:"3"},
+78:{ingredient:"Хисткарп", effects:["Восстановление запаса сил", "Повышение магии", "Повреждение регенерации запаса сил", "Водное дыхание"], weight:"0.25", price:"6"},
+79:{ingredient:"Человеческое сердце", effects:["Урон здоровью", "Урон магии", "Повреждение регенерации магии", "Бешенство"], weight:"1", price:"0"},
+80:{ingredient:"Человечье мясо", effects:["Урон здоровью", "Паралич", "Восстановление магии", "Повышение навыка: Скрытность"], weight:"0.25", price:"1"},
+81:{ingredient:"Чеснок", effects:["Сопротивление ядам", "Повышение запаса сил", "Регенерация магии", "Регенерация здоровья"], weight:"0.25", price:"1"},
+82:{ingredient:"Чешуйчатка", effects:["Уязвимость к магии", "Повышение навыка: Иллюзия", "Регенерация запаса сил", "Повышение переносимого веса"], weight:"0.25", price:"4"},
+83:{ingredient:"Чешуя рыбы-убийцы", effects:["Сопротивление холоду", "Затяжной урон здоровью", "Повышение навыка: Тяжелая броня", "Повышение навыка: Блокирование"], weight:"0.1", price:"3"},
+84:{ingredient:"Эктоплазма", effects:["Восстановление магии", "Повышение навыка: Разрушение", "Повышение магии", "Урон здоровью"], weight:"0.1", price:"25"},
+85:{ingredient:"Эльфийское ухо", effects:["Восстановление магии", "Повышение искусства лучника", "Уязвимость к холоду", "Сопротивление огню"], weight:"0.1", price:"10"},
+86:{ingredient:"Ягоды можжевельника", effects:["Уязвимость к огню", "Повышение искусства лучника", "Регенерация здоровья", "Повреждение регенерации запаса сил"], weight:"0.1", price:"1"},
+87:{ingredient:"Ядовитый колокольчик", effects:["Урон здоровью", "Опустошение запаса сил", "Замедление", "Уязвимость к яду"], weight:"0.1", price:"4"},
+88:{ingredient:"Язык дракона", effects:["Сопротивление огню", "Повышение искусства торговли", "Повышение навыка: Иллюзия", "Повышение навыка: Двуручное оружие"], weight:"0.1", price:"5"},
+89:{ingredient:"Яйцо коруса", effects:["Уязвимость к яду", "Повышение запаса сил", "Урон магии", "Невидимость"], weight:"0.2", price:"10"},
+90:{ingredient:"Яйцо оригмы", effects:["Восстановление здоровья", "Повышение навыка: Одноручное оружие", "Урон запасу сил", "Уязвимость к магии"], weight:"0.5", price:"2"},
+91:{ingredient:"Яйцо соснового дрозда", effects:["Восстановление запаса сил", "Повышение навыка: Взлом", "Уязвимость к яду", "Сопротивление электричеству"], weight:"0.5", price:"2"},
+};
+
+function prepareingredientsList() {
+	var str='';
+	$("table#ingredients_table tbody tr").each(function(_i, tr) {
+		var id = getRowId(tr);
+		var i = ingredientsList[id];
+		str += id+':{ingredient:"'+i.ingredient+'", effects:["'+i.effects[0]+'", "'+i.effects[1]+'", "'+i.effects[2]+'", "'+i.effects[3]+'"], weight:"'+i.weight+'", price:"'+i.price+'"},<br>';
+	});
+	$('#loading').html(str);
+	$("#loading").show();
+	$("#alch_div").hide();
 }
 </script>
 
@@ -348,7 +514,6 @@ function makeMixTitle(mixes) {
 </script>
 
 <script type="text/javascript">
-	var ingredientsList = {};
 	var idByIngredient = {};
 	var ingredientsByEffect = {};
 	for (var i in effectsPrice)
@@ -361,7 +526,7 @@ function makeMixTitle(mixes) {
 
 
 	function getRowId(e) {
-		return $(e).attr('origindex');
+		return parseInt($(e).attr('origindex'));
 	}
 
 	function getRowById(id) {
@@ -727,29 +892,16 @@ function makeMixTitle(mixes) {
 		loadFiltered();
 
 		// prepare hashmap
-		$("table#ingredients_table tbody tr").each(function(i, tr) {
-			var $tr = $(tr);
-			var id = getRowId(tr);
-			var ingredient = $tr.find('td:first a').text();
-			var effects = new Array();
-			var weight = 0;
-			var price = 0;
-			$tr.find('td').each(function(i, td) {
-				if (i > 0 && i < 5) {
-					var effect = $(td).text().trim();
-					effects.push(effect);
-					if (ingredientsByEffect[effect] == undefined)
-						alert(effect+' - undefined!');
-					else
-						ingredientsByEffect[effect].push(id);
-				}
-				if (i == 5)
-					weight = $(td).text().trim();
-				if (i == 6)
-					price = $(td).text().trim();
-			});
-			ingredientsList[id] = {ingredient:ingredient, effects:effects, weight:weight, price:price};
-		});
+		for (var id in ingredientsList) {
+			var ingredient = ingredientsList[id];
+			for (var l=0; l<4; l++) {
+				var effect = ingredient.effects[l];
+				if (ingredientsByEffect[effect] == undefined)
+					alert(effect+' - undefined!');
+				else
+					ingredientsByEffect[effect].push(id);
+			}
+		}
 
 		// id by ingredient
 		var ing2id = {};
@@ -765,6 +917,20 @@ function makeMixTitle(mixes) {
 		for (var i in ingredientsList) {
 			ingredientsList[i].best = makeIngredientBestPrice(i, false);
 			ingredientsList[i].bestFull = makeIngredientBestPrice(i, true);
+		}
+
+		// prepare table
+		$("table#ingredients_table tbody").children().remove();
+		for (var i in ingredientsList) {
+			var ingredient = ingredientsList[i];
+			var $tr = $('<tr origindex="'+i+'"><td><a href="#">'+ingredient.ingredient+'</a></td></tr>');
+			for (var l=0; l<4; l++) {
+				var effect = ingredient.effects[l];
+				var $td = $('<td class="'+(effectsPositive[effect]?'EffectPos':'EffectNeg')+'"><a href="#">'+effect+'</a></td>');
+				$tr.append($td);
+			}
+			$tr.append('<td>'+ingredient.weight+'</td><td>'+ingredient.price+'</td>');
+			$("table#ingredients_table tbody").append($tr);
 		}
 
 		// disable click, add title
@@ -799,7 +965,7 @@ function makeMixTitle(mixes) {
 			});
 			//best price
 			var best = ingredientsList[getRowId(tr)].best;
-			var $td = $('<td class="best_price"><a title="'+makeMixTitle(best.list[best.price])+'">'+best.price+'</a></td>').click({id:getRowId(tr), isFull:false}, showPotions);
+			var $td = $('<td class="best_price"><a title="'+makeMixTitle(best.list[best.price])+'">'+(best.price?best.price:'-')+'</a></td>').click({id:getRowId(tr), isFull:false}, showPotions);
 			$(tr).find('td:last').after($td);
 			var bestFull = ingredientsList[getRowId(tr)].bestFull;
 			if (bestFull) {
@@ -823,7 +989,6 @@ function makeMixTitle(mixes) {
 		$("#alch_div").hide().after('<div id="loading"><div id="progress_bar">loading...</div></div>');
 		window.setTimeout( function() {initAll()}, 10);
 	});
-
 </script>
 </head>
 <body>
@@ -836,13 +1001,21 @@ function makeMixTitle(mixes) {
 <div id="intro" style="display:none">
 	<div style="float:right; padding:3px 10px"><a href="#" onclick="$('#intro').hide();return false;">(Скрыть)</a></div>
 	<h3>Приветствую тебя, алхимик</h3>
-	<p>
-		<ul>
-			<li><b>Нажми на глаз рядом с названием ингредиента</b> чтобы увидеть только те ингредиенты которые имеют общие с данным ингредиентом эффекты.</li>
-			<li><b>Нажми на глаз рядом с названием эффекта</b> чтобы увидеть только те ингредиенты которые содержат выбранный эффект.</li>
-			<li><b>Нажми на заголовки таблицы</b> чтобы сортировать содержимое по столбцам.</li>
-		</ul>
+	<ul>
+		<li><b>Нажми на название ингредиента</b> чтобы увидеть список рецептов с этим ингредиентом.</li>
+		<li><b>Нажми на глаз рядом с названием ингредиента</b> чтобы увидеть только те ингредиенты которые имеют общие с данным ингредиентом эффекты.</li>
+		<li><b>Нажми на глаз рядом с названием эффекта</b> чтобы увидеть только те ингредиенты которые содержат выбранный эффект.</li>
+		<li><b>Нажми на заголовки таблицы</b> чтобы отсортировать содержимое.</li>
+	</ul>
+	<p style="margin-top:20px; padding-left:20px">
+		<b>Значения колонок:</b>
 	</p>
+	<ul style="list-style-type: none;">
+		<li><img alt="Weight" src="./files/ico_weight.png"> - Вес / Промежуточная цена зелья при выбранном ингредиенте<br></li>
+		<li><img alt="Value" src="./files/ico_gold.png" /> - Цена / Условная цена лучшего рецепта для выбранного ингредиента<br></li>
+		<li><img alt="Best" src="./files/ico_price.png" /> - Условная цена лучшего рецепта из отфильтрованных<br></li>
+		<li><img alt="Best" src="./files/ico_price_b.png" /> - Условная цена лучшего рецепта из всех ингредиентов<br></li>
+	</ul>
 </div>
 
 <div id="alch_div">
@@ -865,7 +1038,7 @@ function makeMixTitle(mixes) {
 </div>
 
 <div id="potions_div" style="display:none">
-	<!--<p>Список рецептов для <b class="name"></b></p>-->
+	<!--<p>Список рецептов для</p>-->
 	<div id="ingredient_name_div" style="margin-top: 15px;">
 		<table>
 			<thead>
@@ -876,9 +1049,9 @@ function makeMixTitle(mixes) {
 					<th class="effect_column">Третий эффект</th>
 					<th class="effect_column">Четвертый эффект</th>
 					<th class="num_column"><img alt="Weight" src="./files/ico_weight.png"></th>
-	<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
+					<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
+					<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
+					<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -915,9 +1088,9 @@ function makeMixTitle(mixes) {
 					<th class="effect_column">Третий эффект</th>
 					<th class="effect_column">Четвертый эффект</th>
 					<th class="num_column"><img alt="Weight" src="./files/ico_weight.png"></th>
-	<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
+					<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
+					<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
+					<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -936,2210 +1109,23 @@ function makeMixTitle(mixes) {
 <div style="float:right; padding:3px 10px; height: 0px; position: relative; top: -30px;"><label><input type="checkbox" id="show_filtered" checked onclick="toggleFilteredRows();">Отображать отфильтрованные.</label></div>
 <div>
 <table class="tablesorter" id="ingredients_table">
-<thead>
-<tr origindex="0">
-	<th class="name_column">Название</th>
-	<th class="effect_column">Первый эффект</th>
-	<th class="effect_column">Второй эффект</th>
-	<th class="effect_column">Третий эффект</th>
-	<th class="effect_column">Четвертый эффект</th>
-	<th class="num_column"><img alt="Weight" src="./files/ico_weight.png" /></th>
-	<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
-	<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
-</tr>
-</thead>
-
-
-<tbody>
-<tr origindex="1">
-	<td>
-		<a href="#"></span>Абесинский окунь</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Восстановление</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="2">
-	<td>
-		<a href="#">Медвежьи когти</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="3">
-	<td>
-		<a href="#">Пчела</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к электричеству</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		3
-	</td>
-</tr>
-<tr origindex="4">
-	<td>
-		<a href="#">Пчелиное гнездо</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Легкая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td>
-		1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="5">
-	<td>
-		<a href="#">Кровавый венец</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td>
-		0.3
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="6">
-	<td>
-		<a href="#">Лютый гриб</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Кузнечное дело</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		12
-	</td>
-</tr>
-<tr origindex="7">
-	<td>
-		<a href="#">Крыло синей бабочки</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Зачарование</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="8">
-	<td>
-		<a href="#">Синяя стрекоза</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Карманные кражи</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Страх</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="9">
-	<td>
-		<a href="#">Голубой горноцвет</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="10">
-	<td>
-		<a href="#">Костная мука</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение запаса сил</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="11">
-	<td>
-		<a href="#">Вересковое сердце</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Паралич</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		20
-	</td>
-</tr>
-<tr origindex="12">
-	<td>
-		<a href="#">Крыло монарха</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства торговли</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон запасу сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		3
-	</td>
-</tr>
-<tr origindex="13">
-	<td>
-		<a href="#">Собачий корень</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства лучника</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Паралич</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="14">
-	<td>
-		<a href="#">Жареная злокрысья кожа</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Исцеление болезней</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="15">
-	<td>
-		<a href="#">Яйцо коруса</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="16">
-	<td>
-		<a href="#">Куриное яйцо</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Водное дыхание</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон запасу сил</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="17">
-	<td>
-		<a href="#">Ползучая лоза</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="18">
-	<td>
-		<a href="#">Алый корень Нирна</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="19">
-	<td>
-		<a href="#">Сиродильский лопатохвост</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Восстановление</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Страх</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="20">
-	<td>
-		<a href="#">Сердце даэдра</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Страх</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		250
-	</td>
-</tr>
-<tr origindex="21">
-	<td>
-		<a href="#">Ядовитый колокольчик</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Замедление</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		4
-	</td>
-</tr>
-<tr origindex="22">
-	<td>
-		<a href="#">Язык дракона</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства торговли</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Иллюзия</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Двуручное оружие</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="23">
-	<td>
-		<a href="#">Двемерское масло</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Иллюзия</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="24">
-	<td>
-		<a href="#">Эктоплазма</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		25
-	</td>
-</tr>
-<tr origindex="25">
-	<td>
-		<a href="#">Эльфийское ухо</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства лучника</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="26">
-	<td>
-		<a href="#">Глаз саблезуба</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="27">
-	<td>
-		<a href="#">Ухо фалмера</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Взлом</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="28">
-	<td>
-		<a href="#">Огненная соль</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		50
-	</td>
-</tr>
-<tr origindex="29">
-	<td>
-		<a href="#">Мухомор</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Двуручное оружие</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация запаса сил</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="30">
-	<td>
-		<a href="#">Морозная мириам</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="31">
-	<td>
-		<a href="#">Морозная соль</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		100
-	</td>
-</tr>
-<tr origindex="32">
-	<td>
-		<a href="#">Чеснок</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="33">
-	<td>
-		<a href="#">Гигантский лишайник</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к электричеству</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="34">
-	<td>
-		<a href="#">Палец великана</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td>
-		1
-	</td>
-	<td>
-		20
-	</td>
-</tr>
-<tr origindex="35">
-	<td>
-		<a href="#">Светящаяся пыль</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		20
-	</td>
-</tr>
-<tr origindex="36">
-	<td>
-		<a href="#">Светящийся гриб</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Кузнечное дело</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="37">
-	<td>
-		<a href="#">Травяной стручок</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Изменение</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="38">
-	<td>
-		<a href="#">Коготь ворожеи</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Зачарование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства торговли</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		20
-	</td>
-</tr>
-<tr origindex="39">
-	<td>
-		<a href="#">Перья ворожеи</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к электричеству</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		20
-	</td>
-</tr>
-<tr origindex="40">
-	<td>
-		<a href="#">Бородатый мох</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="41">
-	<td>
-		<a href="#">Клюв ястреба</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="42">
-	<td>
-		<a href="#">Перья ястреба</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Исцеление болезней</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Легкая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="43">
-	<td>
-		<a href="#">Хисткарп</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Водное дыхание</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		6
-	</td>
-</tr>
-<tr origindex="44">
-	<td>
-		<a href="#">Медовые соты</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Легкая броня</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение запаса сил</a>
-	</td>
-	<td>
-		1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="45">
-	<td>
-		<a href="#">Человечье мясо</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Паралич</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="46">
-	<td>
-		<a href="#">Человеческое сердце</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td>
-		1
-	</td>
-	<td>
-		0
-	</td>
-</tr>
-<tr origindex="47">
-	<td>
-		<a href="#">Зубы ледяного привидения</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Тяжелая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		30
-	</td>
-</tr>
-<tr origindex="48">
-	<td>
-		<a href="#">Бесовский гриб</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Паралич</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td>
-		0.3
-	</td>
-	<td>
-		0
-	</td>
-</tr>
-<tr origindex="49">
-	<td>
-		<a href="#">Виноград джазби</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="50">
-	<td>
-		<a href="#">Ягоды можжевельника</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства лучника</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="51">
-	<td>
-		<a href="#">Большие рога</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Замедление</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="52">
-	<td>
-		<a href="#">Лаванда</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Колдовство</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="53">
-	<td>
-		<a href="#">Крыло лунного мотылька</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Легкая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="54">
-	<td>
-		<a href="#">Лунный сахар</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		50
-	</td>
-</tr>
-<tr origindex="55">
-	<td>
-		<a href="#">Мора тапинелла</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Иллюзия</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		4
-	</td>
-</tr>
-<tr origindex="56">
-	<td>
-		<a href="#">Клешня грязевого краба</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Исцеление болезней</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="57">
-	<td>
-		<a href="#">Гниль Намиры</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Взлом</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Страх</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		0
-	</td>
-</tr>
-<tr origindex="58">
-	<td>
-		<a href="#">Паслен</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		8
-	</td>
-</tr>
-<tr origindex="59">
-	<td>
-		<a href="#">Корень Нирна</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		10
-	</td>
-</tr>
-<tr origindex="60">
-	<td>
-		<a href="#">Морской желудь</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Водное дыхание</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Карманные кражи</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="61">
-	<td>
-		<a href="#">Оранжевая стрекоза</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Карманные кражи</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон здоровью</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="62">
-	<td>
-		<a href="#">Жемчужина</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="63">
-	<td>
-		<a href="#">Яйцо соснового дрозда</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Взлом</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="64">
-	<td>
-		<a href="#">Толченый бивень мамонта</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к огню</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Страх</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="65">
-	<td>
-		<a href="#">Лиловый горноцвет</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Скрытность</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="66">
-	<td>
-		<a href="#">Красный горноцвет</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="67">
-	<td>
-		<a href="#">Бойцовая рыбка</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Изменение</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Замедление</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="68">
-	<td>
-		<a href="#">Яйцо оригмы</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="69">
-	<td>
-		<a href="#">Клык саблезуба</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Тяжелая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Кузнечное дело</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="70">
-	<td>
-		<a href="#">Соль</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Восстановление</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Замедление</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="71">
-	<td>
-		<a href="#">Чешуйчатка</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Иллюзия</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		4
-	</td>
-</tr>
-<tr origindex="72">
-	<td>
-		<a href="#">Серебристый окунь</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="73">
-	<td>
-		<a href="#">Хвост злокрыса</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Легкая броня</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		3
-	</td>
-</tr>
-<tr origindex="74">
-	<td>
-		<a href="#">Икра рыбы-убийцы</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Карманные кражи</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		3
-	</td>
-</tr>
-<tr origindex="75">
-	<td>
-		<a href="#">Чешуя рыбы-убийцы</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Тяжелая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		3
-	</td>
-</tr>
-<tr origindex="76">
-	<td>
-		<a href="#">Маленькие рога</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к яду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Восстановление</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон запасу сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="77">
-	<td>
-		<a href="#">Маленькая жемчужина</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Одноручное оружие</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Восстановление</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-<tr origindex="78">
-	<td>
-		<a href="#">Снежные ягоды</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление огню</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Зачарование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		4
-	</td>
-</tr>
-<tr origindex="79">
-	<td>
-		<a href="#">Паучье яйцо</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Урон запасу сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Взлом</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства лучника</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="80">
-	<td>
-		<a href="#">Живица сприггана</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Зачарование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Кузнечное дело</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Изменение</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="81">
-	<td>
-		<a href="#">Болотный стручок</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление электричеству</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Паралич</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td>
-		0.25
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="82">
-	<td>
-		<a href="#">Стержневой корень</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Иллюзия</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td>
-		0.5
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="83">
-	<td>
-		<a href="#">Ветка чертополоха</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление холоду</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Тяжелая броня</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="84">
-	<td>
-		<a href="#">Торакс светлячка</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение запаса сил</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="85">
-	<td>
-		<a href="#">Жир тролля</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление ядам</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Двуручное оружие</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Бешенство</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td>
-		1
-	</td>
-	<td>
-		15
-	</td>
-</tr>
-<tr origindex="86">
-	<td>
-		<a href="#">Пушица</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Блокирование</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение искусства торговли</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		1
-	</td>
-</tr>
-<tr origindex="87">
-	<td>
-		<a href="#">Прах вампира</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Невидимость</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Регенерация здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Исцеление болезней</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		25
-	</td>
-</tr>
-<tr origindex="88">
-	<td>
-		<a href="#">Соль пустоты</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к электричеству</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Урон здоровью</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение магии</a>
-	</td>
-	<td>
-		0.2
-	</td>
-	<td>
-		125
-	</td>
-</tr>
-<tr origindex="89">
-	<td>
-		<a href="#">Пшеница</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление здоровья</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение здоровья</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Повреждение регенерации запаса сил</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Затяжной урон магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		5
-	</td>
-</tr>
-<tr origindex="90">
-	<td>
-		<a href="#">Белянка</a>
-	</td>
-	
-	<td class="EffectNeg">
-		<a href="#">Уязвимость к холоду</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Тяжелая броня</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Восстановление магии</a>
-	</td>
-	<td class="EffectNeg">
-		<a href="#">Опустошение магии</a>
-	</td>
-	<td>
-		0.3
-	</td>
-	<td>
-		0
-	</td>
-</tr>
-<tr origindex="91">
-	<td>
-		<a href="#">Пелена дымка</a>
-	</td>
-	
-	<td class="EffectPos">
-		<a href="#">Восстановление запаса сил</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение навыка: Разрушение</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Повышение переносимого веса</a>
-	</td>
-	<td class="EffectPos">
-		<a href="#">Сопротивление магии</a>
-	</td>
-	<td>
-		0.1
-	</td>
-	<td>
-		2
-	</td>
-</tr>
-</tbody>
+	<thead>
+		<tr origindex="0">
+			<th class="name_column">Название</th>
+			<th class="effect_column">Первый эффект</th>
+			<th class="effect_column">Второй эффект</th>
+			<th class="effect_column">Третий эффект</th>
+			<th class="effect_column">Четвертый эффект</th>
+			<th class="num_column"><img alt="Weight" src="./files/ico_weight.png" /></th>
+			<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
+			<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
+			<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
 </table>
 </div>
-<!-- ==== END OF TABLE ================================================================================================================ -->
 
 </div>
 
