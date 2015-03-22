@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- saved from url=(0046)http://tespedia.ru/special/skyrim_alchemy_tool -->
+<!-- base data saved from url=(0046)http://tespedia.ru/special/skyrim_alchemy_tool -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" id="js">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -158,12 +158,12 @@ input[type=checkbox] {vertical-align: middle;}
 .filterBox {border:1px solid #ccc; padding:5px; margin:2px; display:inline-block}
 .filterBox input[type=checkbox] {margin: 0 3px 0 0;}
 
-.pointer {cursor:pointer;}
+.pointer, #alch_div a, #help_info a {cursor:pointer;}
 
 #loading {margin: 30px 30px 30px 0; border:1px solid #eee; padding: 5px}
 #progress_bar {background-color:#FFFFCC; border:1px solid #ccc; height: 15px; width: 100%}
 
-#intro {background-color: #CDD5DC; margin:10px 0; padding:5px;}
+#help_info {background-color: #CDD5DC; margin:10px 0; padding:5px;}
 </style>
 
 <script type="text/javascript" src="./files/jquery.min.js"></script>
@@ -520,7 +520,7 @@ function makeMixTitle(mixes) {
 		ingredientsByEffect[i] = new Array();
 	var currentIngredient = null;
 	var currentIngredient2 = null;
-	var potionsIsFull = true;
+	var potionsIsFull = false;
 	var potionsId = 0;
 	var potionsHistory = Array();
 
@@ -555,8 +555,8 @@ function makeMixTitle(mixes) {
 	}
 
 	function clickIngredient(e) {
-		var tr = $(e.data);
-		var id = getRowId(tr);
+		var id = e.data;
+		var tr = getRowById(id);
 		var ingredient = ingredientsList[id];
 		var effects = ingredient.effects;
 		var dubEffects = new Array();
@@ -601,7 +601,7 @@ function makeMixTitle(mixes) {
 			});
 		}
 		
-		var eye = $('<div class="diveye"><a href="#"><img src="./files/ico_eye.png" /></a></div>').click(tr, clickIngredientFilter);
+		var eye = $('<div class="diveye"><a><img src="./files/ico_eye.png" /></a></div>').click(id, clickIngredientFilter);
 		$('#ingredient_filter table tbody tr:last td:first').append(eye);
 
 		// update main table
@@ -678,9 +678,7 @@ function makeMixTitle(mixes) {
 			}
 		});
 		
-		link = td.find('a').attr("href").trim();
 		$("#effect_name").text(effect);
-		$("#effect_name").attr("href", link);
 		
 		$('#all_ingredients').hide();
 		$('#ingredient_filter').hide();
@@ -838,13 +836,13 @@ function makeMixTitle(mixes) {
 				var best0 = isFull ? ingr.bestFull : ingr.best;
 				var price0 = parseInt(best0.price)
 				var color = price0 > price ? (price0 > parseInt(price) + priceDelta ? 'color:#AA0000' : 'color:#AA7A0A') : (price0 == price ? 'color:#008000' : '');
-				title += '<a href="#" title="'+price0+'" onclick="showPotions({data:{id:'+mixes[k].id2+'}})" style="'+color+'">'+ingr.ingredient+'</a>';
+				title += '<a title="'+price0+'" onclick="showPotions({data:{id:'+mixes[k].id2+'}})" style="'+color+'">'+ingr.ingredient+'</a>';
 				title += ' + ';
 				var ingr = ingredientsList[mixes[k].id3];
 				var best0 = isFull ? ingr.bestFull : ingr.best;
 				var price0 = parseInt(best0.price)
 				var color = price0 > price ? (price0 > parseInt(price) + priceDelta ? 'color:#AA0000' : 'color:#AA7A0A') : (price0 == price ? 'color:#008000' : '');
-				title += '<a href="#" title="'+price0+'" onclick="showPotions({data:{id:'+mixes[k].id3+'}})" style="'+color+'">'+ingr.ingredient+'</a>';
+				title += '<a title="'+price0+'" onclick="showPotions({data:{id:'+mixes[k].id3+'}})" style="'+color+'">'+ingr.ingredient+'</a>';
 			}
 			$tbody.append('<tr' + (price < lowPriotityDelta ? ' class="lowprio"' : '') + '><td>' + price + '</td><td>' + title + '</td></tr>');
 		}
@@ -919,60 +917,53 @@ function makeMixTitle(mixes) {
 			ingredientsList[i].bestFull = makeIngredientBestPrice(i, true);
 		}
 
-		// prepare table
-		$("table#ingredients_table tbody").children().remove();
-		for (var i in ingredientsList) {
-			var ingredient = ingredientsList[i];
-			var $tr = $('<tr origindex="'+i+'"><td><a href="#">'+ingredient.ingredient+'</a></td></tr>');
-			for (var l=0; l<4; l++) {
-				var effect = ingredient.effects[l];
-				var $td = $('<td class="'+(effectsPositive[effect]?'EffectPos':'EffectNeg')+'"><a href="#">'+effect+'</a></td>');
+		// prepare ingredients table
+		var $ingredients_tbody = $("table#ingredients_table tbody");
+		$ingredients_tbody.children().remove();
+		for (var id in ingredientsList) {
+			var ingredient = ingredientsList[id];
+			var $tr = $('<tr origindex="'+id+'"></tr>');
+			// name
+			var $td1 = $('<td class="name_column"></td>');
+			$td1.append($('<a title="'+ingredient.ingredient+'">'+ingredient.ingredient+'</a>').click({id:id}, showPotions));
+			// eye
+			$td1.append($('<div class="diveye"><a title="'+id+'"><img src="./files/ico_eye.png" /></a></div>').click(id, clickIngredient));
+			// filtered
+			if (isFilteredIngredient(id))
+				$td1.addClass('filtered');
+			$tr.append($td1);
+			// effects
+			for (var k=0; k<4; k++) {
+				var effect = ingredient.effects[k];
+				var price = effectsPrice[effect];
+				var title = price ? effect+' | '+price : effect;
+				var $td = $('<td class="'+(effectsPositive[effect]?'EffectPos':'EffectNeg')+'"><a title="'+title+'">'+effect+'</a></td>');
+				// price bar
+				$td.append('<div class="effectvprice" title="'+price+'" style="height:'+Math.ceil(price/maxEPrice*20)+'px"></div>');
+				// eye
+				$td.append($('<div class="diveye"><a><img src="./files/ico_eye.png" /></a></div>').click(clickEffect));
+				// warning
+				if ($.inArray(effect, effectsWarning) > -1)
+					$td.addClass('effect_warning');
 				$tr.append($td);
 			}
+			// weight,price
 			$tr.append('<td>'+ingredient.weight+'</td><td>'+ingredient.price+'</td>');
-			$("table#ingredients_table tbody").append($tr);
+			//best price
+			var best = ingredient.best;
+			$tr.append($('<td class="best_price"><a title="'+makeMixTitle(best.list[best.price])+'">'+(best.price?best.price:'-')+'</a></td>').click({id:id, isFull:false}, showPotions));
+			var bestFull = ingredient.bestFull;
+			if (bestFull) {
+				$tr.append($('<td class="best_price"><a title="'+makeMixTitle(bestFull.list[bestFull.price])+'">'+bestFull.price+'</a></td>').click({id:id, isFull:true}, showPotions));
+			}
+			// insert into table
+			$ingredients_tbody.append($tr);
 		}
 
-		// disable click, add title
-		$('table#ingredients_table a').each(
-			function(){
-				var effect = $(this).html();
-				if (effectsPrice[effect])
-					effect += ' | '+effectsPrice[effect];
-				$(this).click(function(){
-					return false;
-				}).attr('title',effect);
-			}
-		);
-
-		// add eye, price
-		$("table#ingredients_table tbody tr").each(function(i, tr) {
-			var $td1 = $(tr).find('td:first');
-			$td1.find('a').click({id:getRowId(tr)}, showPotions);
-			var img = $('<div class="diveye"><a href="#" title="'+getRowId(tr)+'"><img src="./files/ico_eye.png" /></a></div>').click(tr, clickIngredient);
-			$td1.append(img).addClass('name_column');
-			if (isFilteredIngredient(getRowId(tr)))
-				$td1.addClass('filtered');
-			
-			var img = $('<div class="diveye"><a href="#"><img src="./files/ico_eye.png" /></a></div>').click(clickEffect);
-			$(tr).find('td:eq(1),td:eq(2),td:eq(3),td:eq(4)').append(img).each(function(i, td) {
-				var $a = $(td).find('a:first');
-				var effect = $a.text();
-				var price = effectsPrice[effect];
-				$a.after('<div class="effectvprice" title="'+price+'" style="height:'+Math.ceil(price/maxEPrice*20)+'px"></div>');
-				if ($.inArray(effect, effectsWarning) > -1)
-					$(td).addClass('effect_warning');
-			});
-			//best price
-			var best = ingredientsList[getRowId(tr)].best;
-			var $td = $('<td class="best_price"><a title="'+makeMixTitle(best.list[best.price])+'">'+(best.price?best.price:'-')+'</a></td>').click({id:getRowId(tr), isFull:false}, showPotions);
-			$(tr).find('td:last').after($td);
-			var bestFull = ingredientsList[getRowId(tr)].bestFull;
-			if (bestFull) {
-				var $td = $('<td class="best_price"><a title="'+makeMixTitle(bestFull.list[bestFull.price])+'">'+bestFull.price+'</a></td>').click({id:getRowId(tr), isFull:true}, showPotions);
-				$(tr).find('td:last').after($td);
-			}
-		});
+		// table header
+		var $ingredients_header = $('table#ingredients_table thead tr');
+		$('#ingredient_name_div table thead').append($ingredients_header.clone());
+		$('#ingredient_filter table thead').append($ingredients_header.clone());
 
 		// make sortable
 		$("#ingredients_table").tablesorter({sortList: [[0,0]] });
@@ -998,8 +989,8 @@ function makeMixTitle(mixes) {
 		<div id="maincolumn" class="mainstyles">
 			<div class="maincontent">
 
-<div id="intro" style="display:none">
-	<div style="float:right; padding:3px 10px"><a href="#" onclick="$('#intro').hide();return false;">(Скрыть)</a></div>
+<div id="help_info" style="display:none">
+	<div style="float:right; padding:3px 10px"><a onclick="$('#help_info').hide();return false;">(Скрыть)</a></div>
 	<h3>Приветствую тебя, алхимик</h3>
 	<ul>
 		<li><b>Нажми на название ингредиента</b> чтобы увидеть список рецептов с этим ингредиентом.</li>
@@ -1019,7 +1010,7 @@ function makeMixTitle(mixes) {
 </div>
 
 <div id="alch_div">
-	<div style="float:right; padding:3px 10px"><a href="#" onclick="$('#intro').toggle();return false;">(Подсказка)</a></div>
+	<div style="float:right; padding:3px 10px"><a onclick="$('#help_info').toggle();return false;" style="color:#E8F4F9">(Подсказка)</a></div>
 
 <div id="filtered_show_div">
 	<p><input class="abutton" type="submit" value="Фильтр" onclick="showFiltered();"></p>
@@ -1041,21 +1032,8 @@ function makeMixTitle(mixes) {
 	<!--<p>Список рецептов для</p>-->
 	<div id="ingredient_name_div" style="margin-top: 15px;">
 		<table>
-			<thead>
-				<tr>
-					<th class="name_column">Название</th>
-					<th class="effect_column">Первый эффект</th>
-					<th class="effect_column">Второй эффект</th>
-					<th class="effect_column">Третий эффект</th>
-					<th class="effect_column">Четвертый эффект</th>
-					<th class="num_column"><img alt="Weight" src="./files/ico_weight.png"></th>
-					<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
-					<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
-					<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
+			<thead></thead>
+			<tbody></tbody>
 		</table>
 	</div>
 	<p><input class="abutton aback" type="submit" value="&lt; Назад" onclick="prevPotions();"> <input class="abutton afull" type="submit" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});"> <input class="abutton" type="submit" value="Закрыть" onclick="$('#potions_div').hide();"></p>
@@ -1066,8 +1044,7 @@ function makeMixTitle(mixes) {
 				<th class="ingredients_column">Реагенты</th>
 			</tr>
 		</thead>
-		<tbody>
-		</tbody>
+		<tbody></tbody>
 	</table>
 	<p><input class="abutton aback" type="submit" value="&lt; Назад" onclick="prevPotions();"> <input class="abutton afull" type="submit" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});"> <input class="abutton" type="submit" value="Закрыть" onclick="$('#potions_div').hide();"></p>
 </div>
@@ -1080,28 +1057,15 @@ function makeMixTitle(mixes) {
 	<div id="ingredient_filter" style="display: none;">
 		<p>Показаны только те ингредиенты, которые имеют общие эффекты с:</p>
 		<table>
-			<thead>
-				<tr>
-					<th class="name_column">Название</th>
-					<th class="effect_column">Первый эффект</th>
-					<th class="effect_column">Второй эффект</th>
-					<th class="effect_column">Третий эффект</th>
-					<th class="effect_column">Четвертый эффект</th>
-					<th class="num_column"><img alt="Weight" src="./files/ico_weight.png"></th>
-					<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
-					<th class="num_column"><img alt="Best" src="./files/ico_price.png" /></th>
-					<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
+			<thead></thead>
+			<tbody></tbody>
 		</table>
 		<p>Совпавшие эффекты выделены <span class="highlighted">жирным</span></p>
 		<input class="abutton" type="submit" value="Показать все" onclick="showAll();">	
 	</div>
 	
 	<div id="effects_filter" style="display: none;">
-		<p>Показаны ингредиенты которые имеют эффект <a href="#" id="effect_name" class="highlighted" onclick="return false;">Повреждение регенерации запаса сил</a></p>
+		<p>Показаны ингредиенты которые имеют эффект <a id="effect_name" class="highlighted" onclick="return false;">Повреждение регенерации запаса сил</a></p>
 		<input class="abutton" type="submit" value="Показать все" onclick="showAll();"> 
 	</div>	
 </div>
@@ -1110,7 +1074,7 @@ function makeMixTitle(mixes) {
 <div>
 <table class="tablesorter" id="ingredients_table">
 	<thead>
-		<tr origindex="0">
+		<tr>
 			<th class="name_column">Название</th>
 			<th class="effect_column">Первый эффект</th>
 			<th class="effect_column">Второй эффект</th>
@@ -1122,8 +1086,7 @@ function makeMixTitle(mixes) {
 			<th class="num_column"><img alt="Best" src="./files/ico_price_b.png" /></th>
 		</tr>
 	</thead>
-	<tbody>
-	</tbody>
+	<tbody></tbody>
 </table>
 </div>
 
