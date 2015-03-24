@@ -822,6 +822,9 @@ function makeMixTitle(mixes) {
 		$('#potions_div input.afull').val(isFull ? 'Применить фильтр' : 'Показать все варианты');
 		$('#potions_div img.hd_ico').attr('src', isFull ? './files/ico_price_b.png' : './files/ico_price.png');
 
+		// name
+		$('#potions_div .base_ingredient_name').html(ingredient.ingredient);
+
 		// list
 		var $tbody = $('#potions_div table tbody');
 		$tbody.children().remove();
@@ -1029,7 +1032,6 @@ function makeMixTitle(mixes) {
 </div>
 
 <div id="potions_div" style="display:none">
-	<!--<p>Список рецептов для</p>-->
 	<div id="ingredient_name_div" style="margin-top: 15px;">
 		<table>
 			<thead></thead>
@@ -1041,7 +1043,7 @@ function makeMixTitle(mixes) {
 		<thead>
 			<tr>
 				<th class="num_column"><img class="hd_ico" alt="Best" src="./files/ico_price.png"></th>
-				<th class="ingredients_column">Реагенты</th>
+				<th class="ingredients_column">Рецепты на основе ингредиента: <i class="base_ingredient_name"></i></th>
 			</tr>
 		</thead>
 		<tbody></tbody>
