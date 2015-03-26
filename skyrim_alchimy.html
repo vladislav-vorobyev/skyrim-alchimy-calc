@@ -780,18 +780,20 @@ function makeMixTitle(mixes) {
 
 	function saveFiltered() {
 		if (!supportsLocalStorage()) return;
-		var data = localStorage.getItem('skyrim_alchemy_tool');
+		var data;
+		try{ data = localStorage.getItem('skyrim_alchemy_tool'); }catch(e){}
 		try{ data = JSON.parse(data); }catch(e){}
 		if (!data || !data.saves) data = {saves:{}};
 		var key = '1';
 		data.lastKey = key;
 		data.saves[data.lastKey] = filteredIngredients;
-		localStorage.setItem('skyrim_alchemy_tool', JSON.stringify(data));
+		try{ localStorage.setItem('skyrim_alchemy_tool', JSON.stringify(data)); }catch(e){}
 	}
 
 	function loadFiltered() {
 		if (!supportsLocalStorage()) return;
-		var data = localStorage.getItem('skyrim_alchemy_tool');
+		var data;
+		try{ data = localStorage.getItem('skyrim_alchemy_tool'); }catch(e){}
 		try{ data = JSON.parse(data); }catch(e){}
 		if (!data || !data.saves)
 			return;
@@ -800,7 +802,7 @@ function makeMixTitle(mixes) {
 
 	// localStorage detection
 	function supportsLocalStorage() {
-		return typeof(Storage)!== 'undefined' && typeof(JSON)!== 'undefined';
+		return typeof(localStorage)!== 'undefined' && typeof(JSON)!== 'undefined';
 	}
 
 
