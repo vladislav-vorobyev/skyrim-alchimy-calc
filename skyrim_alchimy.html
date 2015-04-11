@@ -299,12 +299,14 @@ var effectsPrice = {
 "Уязвимость к электричеству":56,
 }
 
+// calc max price
 var maxEPrice = 0;
 for (var i in effectsPrice)
 	if (maxEPrice < effectsPrice[i])
 		maxEPrice = effectsPrice[i];
 
-function culcEPrice(effects) {
+// calc sum price of effects
+function calcEPrice(effects) {
 	var price = 0;
 	for (var i in effects)
 		price += effectsPrice[effects[i]];
@@ -443,7 +445,7 @@ function getXorArray(arr1, arr2) {
 // prepare potion
 function makeMixing(effects1, effects2) {
 	var mix = getXorArray(effects1, effects2);
-	var price = culcEPrice(mix.x);
+	var price = calcEPrice(mix.x);
 	return {price:price, effects:mix.x, unused:mix.or};
 }
 
@@ -652,8 +654,9 @@ function makeMixTitle(mixes) {
 
 		if (currentIngredient != null)
 			getRowById(currentIngredient).addClass('unusable');
-
 		tr.addClass('unusable');
+		
+		window.scrollTo(0,$('#filter_div').position().top+15);
 		return false;
 	}
 
@@ -685,6 +688,8 @@ function makeMixTitle(mixes) {
 		$('#effects_filter').show();
 		currentIngredient = null;
 		$('#ingredient_filter table tbody').children().remove();
+		
+		window.scrollTo(0,$('#filter_div').position().top+15);
 		return false;
 	}
 	
