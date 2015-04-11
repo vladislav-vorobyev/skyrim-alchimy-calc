@@ -767,10 +767,8 @@ function makeMixTitle(mixes) {
 			var $td1 = $(tr).find('td:first');
 			if (isFilteredIngredient(getRowId(tr))) {
 				$td1.addClass('filtered');
-				$(tr).addClass('filtered');
 			} else {
 				$td1.removeClass('filtered');
-				$(tr).removeClass('filtered');
 			}
 			//best price
 			var best = ingredientsList[getRowId(tr)].best;
@@ -784,6 +782,7 @@ function makeMixTitle(mixes) {
 		// save & close
 		saveFiltered();
 		refreshPotions();
+		toggleFilteredRows();
 		closeFiltered();
 		return false;
 	}
@@ -1027,9 +1026,10 @@ function makeMixTitle(mixes) {
 	<h3>Приветствую тебя, алхимик</h3>
 	<ul>
 		<li><b>Нажми на название ингредиента</b> чтобы увидеть список рецептов с этим ингредиентом.</li>
+		<li><b>Используй фильтр</b> чтобы ограничить использование ингредиентов для составления списка рецептов.</li>
 		<li><b>Нажми на глаз рядом с названием ингредиента</b> чтобы увидеть только те ингредиенты которые имеют общие с данным ингредиентом эффекты.</li>
 		<li><b>Нажми на глаз рядом с названием эффекта</b> чтобы увидеть только те ингредиенты которые содержат выбранный эффект.</li>
-		<li><b>Нажми на заголовки таблицы</b> чтобы отсортировать содержимое.</li>
+		<li><b>Нажми на заголовок таблицы</b> чтобы отсортировать содержимое.</li>
 	</ul>
 	<p style="margin-top:20px; padding-left:20px">
 		<b>Значения колонок:</b>
