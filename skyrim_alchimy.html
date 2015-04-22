@@ -105,6 +105,8 @@ table#ingredients_table tbody td>a, #ingredient_filter table tbody td>a, #ingred
 
 th.name_column {width: 15em;}
 #alch_div table td.name_column>a {width: 11em;}
+#alch_div .EditFilterMode table td.name_column>a {width: 9em;}
+#alch_div table td.name_column input[type=checkbox] {float:left;}
 th.effect_column {width: 20em;}
 #alch_div table td.EffectNeg>a, #alch_div table td.EffectPos>a {width: 15.5em;}
 
@@ -728,17 +730,49 @@ function makeMixTitle(mixes) {
 	}
 
 	
-	// filtered
+	// ==================================================================================================================
+	// Filter UI functions
+	
 	function showFiltered() {
 		var filtered = '';
 		for (var ingredient in idByIngredient) {
 			var id = idByIngredient[ingredient];
-			filtered += '<div class="filterBox"><label><input type="checkbox" title="'+id+'" value="'+id+'"'+(isFilteredIngredient(id)?' checked':'')+'/>'+ingredient+'</label></div>';
+			filtered += '<div class="filterBox"><label><input type="checkbox" name="fi_'+id+'" title="'+id+'" value="'+id+'"'+(isFilteredIngredient(id)?' checked':'')+' onclick="editFilterCheckboxClick(this)"/>'+ingredient+'</label></div>';
 		}
 		$('#filtered_div table tbody td:first').html(filtered);
 		$('#filtered_show_div').hide();
 		$('#filtered_div').show();
+		
+		// add checkboxes into others tables
+		$('#ingredient_name_div').addClass('EditFilterMode');
+		$('#ingredient_name_div tbody tr').each(function(i, tr) {
+			var $td1 = $(tr).find('td:first');
+			var id = getRowId(tr);
+			$td1.prepend('<input type="checkbox" name="fi_'+id+'" title="'+id+'" value="'+id+'"'+(isFilteredIngredient(id)?' checked':'')+' onclick="editFilterCheckboxClick(this)"/>');
+		});
+		$('#ingredient_filter').addClass('EditFilterMode');
+		$('#ingredient_filter tbody tr').each(function(i, tr) {
+			var $td1 = $(tr).find('td:first');
+			var id = getRowId(tr);
+			$td1.prepend('<input type="checkbox" name="fi_'+id+'" title="'+id+'" value="'+id+'"'+(isFilteredIngredient(id)?' checked':'')+' onclick="editFilterCheckboxClick(this)"/>');
+		});
+		$('#ingredients_table_div').addClass('EditFilterMode');
+		$('#ingredients_table_div tbody tr').each(function(i, tr) {
+			var $td1 = $(tr).find('td:first');
+			var id = getRowId(tr);
+			$td1.prepend('<input type="checkbox" name="fi_'+id+'" title="'+id+'" value="'+id+'"'+(isFilteredIngredient(id)?' checked':'')+' onclick="editFilterCheckboxClick(this)"/>');
+		});
+		
 		return false;
+	}
+
+	function editFilterCheckboxClick(e) {
+		var id = e.value;
+		var checked = e.checked;
+		$('#filtered_div table tbody td input[name=fi_'+id+']').prop('checked', checked);
+		$('#ingredient_name_div table tbody td input[name=fi_'+id+']').prop('checked', checked);
+		$('#ingredient_filter table tbody td input[name=fi_'+id+']').prop('checked', checked);
+		$('#ingredients_table_div table tbody td input[name=fi_'+id+']').prop('checked', checked);
 	}
 
 	function toggleAllFiltered() {
@@ -788,6 +822,12 @@ function makeMixTitle(mixes) {
 	}
 
 	function closeFiltered() {
+		$('#ingredient_name_div input[type=checkbox]').remove();
+		$('#ingredient_name_div').removeClass('EditFilterMode');
+		$('#ingredient_filter input[type=checkbox]').remove();
+		$('#ingredient_filter').removeClass('EditFilterMode');
+		$('#ingredients_table_div input[type=checkbox]').remove();
+		$('#ingredients_table_div').removeClass('EditFilterMode');
 		$('#filtered_div').hide();
 		$('#filtered_show_div').show();
 		return false;
@@ -833,7 +873,9 @@ function makeMixTitle(mixes) {
 	}
 
 
-	// potions
+	// ==================================================================================================================
+	// Potions list functions
+	
 	function showPotions(e) {
 		var priceDelta = 150;
 		var lowPriotityDelta = 200;
@@ -917,6 +959,9 @@ function makeMixTitle(mixes) {
 	}
 
 
+	// ==================================================================================================================
+	// loading functions
+	
 	function initAll() {
 		// load filtered
 		loadFiltered();
@@ -1103,7 +1148,7 @@ function makeMixTitle(mixes) {
 </div>
 
 <div style="float:right; padding:3px 10px; height: 0px; position: relative; top: -30px;"><label><input type="checkbox" id="show_filtered" checked onclick="toggleFilteredRows();">Отображать отфильтрованные.</label></div>
-<div>
+<div id="ingredients_table_div">
 <table class="tablesorter" id="ingredients_table">
 	<thead>
 		<tr>
