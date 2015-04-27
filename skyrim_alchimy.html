@@ -112,9 +112,10 @@ th.effect_column {width: 20em;}
 
 th.num_column, td.num_column {width: 2em; text-align: center;}
 
-.diveye {float:right; height:20px;}
-.diveye img {position:relative; top:-2px;}
-.effectvprice {float:right; width:4px; background-color:#EAAF00;}
+#alch_div table td {position: relative;}
+.diveye {position: absolute; top: 8px; right: 8px; height: 20px;}
+.diveye img {position: relative; top: -2px;}
+.effectvprice {position: absolute; bottom: 1px; right: 1px; width: 2px; background-color: #EAAF00;}
 
 .effect_warning a {color:#FF0080;}
 td.best_price, .best_price a {color:#aaa; font-size:11px; cursor:pointer}
@@ -1016,7 +1017,7 @@ function makeMixTitle(mixes) {
 				var title = price ? effect+' | '+price : effect;
 				var $td = $('<td class="'+(effectsPositive[effect]?'EffectPos':'EffectNeg')+'"><a title="'+title+'">'+effect+'</a></td>');
 				// price bar
-				$td.append('<div class="effectvprice" title="'+price+'" style="height:'+Math.ceil(price/maxEPrice*20)+'px"></div>');
+				$td.append('<div class="effectvprice" title="'+price+'" style="height:'+Math.ceil(price/maxEPrice*33)+'px"></div>');
 				// eye
 				$td.append($('<div class="diveye"><a><img src="./files/ico_eye.png" /></a></div>').click(clickEffect));
 				// warning
