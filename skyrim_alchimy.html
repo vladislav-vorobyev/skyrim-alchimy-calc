@@ -310,10 +310,15 @@ for (var i in effectsPrice)
 
 // calc sum price of effects
 function calcEPrice(effects) {
-	var price = 0;
+	var deltaPN = 80/100;
+	var priceP = 0;
+	var priceN = 0;
 	for (var i in effects)
-		price += effectsPrice[effects[i]];
-	return price;
+		if (effectsPositive[effects[i]])
+			priceP += effectsPrice[effects[i]];
+		else
+			priceN += effectsPrice[effects[i]];
+	return Math.round( priceP < priceN ? priceN + priceP*deltaPN : priceP + priceN*deltaPN );
 }
 </script>
 
@@ -512,7 +517,8 @@ function makeIngredientBestPrice(id, includeFiltered) {
 				// filter first, second, doubled and filtered
 				if (id3 != id && id3 != id2 && id3 != ingredients3[i3+1] && (includeFiltered || !isFilteredIngredient(id3))) {
 					var potion3 = makeMixing(effects2, ingredientsList[id3].effects);
-					var finPrice = potion2.price + potion3.price;
+					// var finPrice = potion2.price + potion3.price; wrong!
+					var finPrice = calcEPrice( potion2.effects.concat(potion3.effects) );
 					// final check
 					if (bestPrice2 < finPrice) {
 						bestPrice2 = finPrice;
