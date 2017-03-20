@@ -970,8 +970,26 @@ function makeMixTitle(mixes) {
 	// loading functions
 	
 	function initAll() {
+		$("#alch_div").hide().after('<div id="loading"><div id="progress_bar">loading...</div></div>');
+		var iterator = initIterator();
+		var iterator_step = function() {
+			var v = iterator.next();
+			console.log(v); // { value:%, done:false/true }
+			if (!v.done) {
+				$("#progress_bar").html(v.value+'%').css('width',v.value+'%');
+				window.setTimeout(iterator_step, 10);
+			} else {
+				$("#loading").hide();
+				$("#alch_div").show();
+			}
+		}
+		window.setTimeout(iterator_step, 10);
+	}
+
+	function* initIterator() {
 		// load filtered
 		loadFiltered();
+		yield 2;
 
 		// prepare hashmap
 		for (var id in ingredientsList) {
@@ -984,6 +1002,7 @@ function makeMixTitle(mixes) {
 					ingredientsByEffect[effect].push(id);
 			}
 		}
+		yield 4;
 
 		// id by ingredient
 		var ing2id = {};
@@ -994,12 +1013,18 @@ function makeMixTitle(mixes) {
 		for (var i in ingKeys) {
 			idByIngredient[ingKeys[i]] = ing2id[ingKeys[i]];
 		}
+		yield 6;
 
 		// culc best price
+		var cnt = Object.keys(ingredientsList).length;
+		var k = 0;
 		for (var i in ingredientsList) {
 			ingredientsList[i].best = makeIngredientBestPrice(i, false);
 			ingredientsList[i].bestFull = makeIngredientBestPrice(i, true);
+			k++;
+			yield 6+Math.round(90*k/cnt);
 		}
+		//yield 96;
 
 		// prepare ingredients table
 		var $ingredients_tbody = $("table#ingredients_table tbody");
@@ -1043,6 +1068,7 @@ function makeMixTitle(mixes) {
 			// insert into table
 			$ingredients_tbody.append($tr);
 		}
+		yield 98;
 
 		// table header
 		var $ingredients_header = $('table#ingredients_table thead tr');
@@ -1051,18 +1077,16 @@ function makeMixTitle(mixes) {
 
 		// make sortable
 		$("#ingredients_table").tablesorter({sortList: [[0,0]] });
+		yield 99;
 
 		// Filter
 		toggleFilteredRows();
-
-		$("#loading").hide();
-		$("#alch_div").show();
+		yield 100;
 	}
 
 	// onload
 	$(document).ready(function() {
-		$("#alch_div").hide().after('<div id="loading"><div id="progress_bar">loading...</div></div>');
-		window.setTimeout( function() {initAll()}, 10);
+		initAll();
 	});
 </script>
 </head>
