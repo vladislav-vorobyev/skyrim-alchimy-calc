@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- base data saved from url=(0046)http://tespedia.ru/special/skyrim_alchemy_tool -->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" id="js">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Калькулятор Алхимии для Скайрима</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <style type="text/css">
 body {
@@ -129,6 +129,8 @@ table.tablesorter thead tr .headerSortDown {
 body:not(.show_filtered) table#ingredients_table tr.filtered {display:none;} 
 table#ingredients_table tr.unusable {display:none;}
 
+#ingredient_name_div td.name_column {font-weight:bold;}
+
 input.abutton {font-size:1.1em; height:auto; padding:.5em 1em; background:#444; color:#eee; border-radius:.5em; cursor:pointer;}
 input.abutton:disabled {background:#777;color:#ccc;}
 
@@ -170,6 +172,16 @@ table.disabled td.filter input {opacity: 50%;}
 .link-menu ul li {margin:.2em; padding:.5em; line-height: 1.1; cursor:pointer;}
 
 .potions_quick_filter a {display: inline-block; background-color:#eee; margin:.2em; padding:.5em; line-height: 1.1; border-radius: .3em;}
+
+#datapack textarea {width:100%; height:40vh;}
+
+.ui-hide {display: none;}
+.data-show .data-bt.ui-show {display: none;}
+.data-show .data-bt.ui-hide {display: inline-block;}
+.data-show #data_div {display: block;}
+.favorites-show .favor-bt.ui-show {display: none;}
+.favorites-show .favor-bt.ui-hide {display: inline-block;}
+.favorites-show #favorites_div {display: block;}
 </style>
 
 <style type="text/css" id="favorites-filter"></style>
@@ -188,20 +200,51 @@ window.mobileAndTabletCheck = function() {
 
 <script type="text/javascript">
 var appVersion = '2.2';
-var priceDelta = 150; // delta between gold and red mark
-var filteredDefault = [19,24,26,33,38,63,64];
-var filteredIngredients = filteredDefault;
-var filteredAddon = [];
 var storedKeys = [];
-var favoritePotions = {};
 var potionsMap = {};
+var favoritesIndex = {};
+var favoritesBestPrice = {};
+
+var favoritePotions = {"60":{"12":[[77,87]]},"141":{"3":[[10,36]]},"153":{"35":[[36,74]]},"168":{"36":[[10,74]],"74":[[10,36]]},"189":{"42":[[29,58]]},"191":{"28":[[10,68]]},"204":{"76":[[10,36]],"85":[[28,86],[68,86]]},"210":{"10":[[3,75]],"75":[[3,10]]},"223":{"10":[[23,28]]},"229":{"17":[[10,36]],"73":[[10,36]]},"240":{"30":[[29,58]]},"241":{"15":[[61,77]],"61":[[15,77]],"77":[[15,61]]},"253":{"85":[[61,86],[77,86]]},"271":{"42":[[70,87]]},"289":{"29":[[11,70]]},"295":{"17":[[81,86]],"23":[[70,81]],"85":[[14,86],[46,86]]},"298":{"12":[[70,87]]},"304":{"61":[[14,86]]},"305":{"29":[[4,6]]},"319":{"65":[[36,61]]},"320":{"76":[[14,81]]},"322":{"10":[[36,60]]},"325":{"28":[[15,51]]},"332":{"73":[[1,67]]},"341":{"67":[[11,70]]},"342":{"32":[[15,33]]},"347":{"1":[[36,39]]},"360":{"3":[[50,56]]},"366":{"34":[[15,35]]},"368":{"28":[[15,52]],"52":[[15,28]]},"371":{"68":[[4,6]],"91":[[4,6]]},"373":{"4":[[6,36]],"74":[[4,6]]},"374":{"48":[[37,68]]},"381":{"59":[[47,88]],"81":[[10,37]]},"386":{"60":[[15,51]]},"388":{"49":[[4,6]]},"389":{"37":[[70,87]],"48":[[70,87]],"81":[[70,87]]},"391":{"28":[[8,15]]},"392":{"1":[[70,87]]},"393":{"44":[[36,61]],"61":[[36,44]]},"395":{"40":[[70,87]]},"398":{"60":[[34,51]]},"401":{"84":[[34,51]]},"402":{"52":[[33,85],[8,90]],"85":[[33,52]]},"404":{"86":[[46,78]]},"405":{"53":[[25,68]]},"407":{"61":[[15,33]]},"408":{"20":[[23,47]],"23":[[20,47]]},"425":{"39":[[8,15]]},"433":{"14":[[46,66]],"46":[[14,66]]},"434":{"50":[[15,33]]},"436":{"4":[[9,58]],"6":[[9,58]]},"439":{"34":[[51,53]]},"440":{"11":[[70,87]],"16":[[70,87]],"70":[[11,87]],"72":[[70,87]],"87":[[11,70],[70,72]]},"442":{"90":[[8,15]]},"443":{"54":[[8,15]]},"445":{"39":[[15,41]],"49":[[8,41]],"59":[[8,41]],"78":[[8,41]]},"446":{"25":[[50,65],[56,65]],"65":[[25,56]]},"450":{"6":[[36,80]],"80":[[6,36]]},"451":{"51":[[15,63]],"63":[[15,51]]},"456":{"9":[[58,80]],"80":[[9,58]]},"465":{"4":[[9,83]],"9":[[4,83]]},"468":{"9":[[6,18]],"18":[[6,9]]},"470":{"25":[[53,63]],"53":[[25,63]]},"474":{"80":[[55,69]]},"475":{"47":[[43,88]],"88":[[43,47]]},"477":{"32":[[8,41]],"46":[[8,41]],"54":[[8,41]]},"480":{"21":[[14,31]],"27":[[14,31],[31,46]],"32":[[31,57]],"46":[[27,31],[21,31],[31,89]],"86":[[31,89]]},"484":{"22":[[46,81]],"46":[[22,81]],"54":[[15,79]],"79":[[15,54]]},"497":{"13":[[8,41]],"41":[[8,13],[52,69]],"69":[[8,52]]},"500":{"55":[[31,57]]},"509":{"57":[[81,89]]},"545":{"43":[[56,82]],"56":[[43,82]],"82":[[43,56]]},"551":{"31":[[81,89]],"81":[[31,89]],"89":[[31,81]]},"572":{"5":[[7,50],[7,56]],"7":[[5,50],[5,56]]},"573":{"62":[[8,63]]}};
+var filteredIngredients = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 53, 54, 55, 56, 57, 59, 60, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 75, 76, 78, 79, 80, 82, 83, 84, 86, 87, 88, 89, 90, 91];
+var filteredAddon = ["DG", "HF", "D"];
 
 var idByIngredient = {};
 var ingredientsByEffect = {};
 
 // filtered check
 function isFilteredIngredient(id) {
-	return $.inArray(parseInt(id), filteredIngredients) > -1;
+	return idIn(id, filteredIngredients);
+}
+
+//calc ingredient color by price
+var prevalentIngredients = [10, 15, 28, 29, 35, 36, 58, 68, 70, 74, 75, 86, 87];
+var rareIngredients = [2, 5, 7, 13, 18, 21, 24, 26, 41, 44, 48, 62, 64, 69, 79, 80, 82, 84];
+
+function getIngredientPriceColor(id, price, potionPrice) {
+	if (favoritesBestPrice[id] && favoritesBestPrice[id] < price)
+		price = favoritesBestPrice[id];
+	if (price > potionPrice) {
+		var delta = 150; // delta between gold and red mark
+		if (idIn(id, prevalentIngredients))
+			return 'gold';
+		if (idIn(id, rareIngredients))
+			delta = 20; // delta for rare
+		return (price > potionPrice + delta)? 'red' : 'gold';
+	} else {
+		return (price == potionPrice)? 'green' : '';
+	}
+}
+
+// array check
+function idIn(id, arr) {
+	return $.inArray(parseInt(id), arr) > -1;
+}
+
+
+// sort function
+function number_asc(a,b) {
+	return (a < b)? -1 : 1;
 }
 </script>
 
@@ -585,8 +628,7 @@ function makeIngredientBestPrice(id, includeFiltered) {
 			priceById[id2] = bestPrice2;
 		}
 	}
-	// sorting
- 	//var listKeys = Object.keys(mixList).sort(function(a,b){return b-a;});
+	// pack result
 	return {price:maxPrice, list:mixList, priceById:priceById};
 }
 
@@ -736,6 +778,9 @@ function makeMixTitle(mixes) {
 		if (currentIngredient != null)
 			getRowById(currentIngredient).addClass('unusable');
 		$tr.addClass('unusable');
+		
+		// favorites
+		favoritesFilterStyleUpdate();
 
 		window.scrollTo(0,$('#filter_div').position().top+15);
 		return false;
@@ -788,6 +833,8 @@ function makeMixTitle(mixes) {
 			var ingredient = ingredientsList[id];
 			$(checkRow).find("td.price-place").html(ingredient.price);
 		});
+		// favorites
+		favoritesFilterStyleUpdate();
 		// sort by name
 		$("#ingredients_table").trigger("sorton", [[[0,0]]]);
 	}
@@ -989,14 +1036,14 @@ function makeMixTitle(mixes) {
 	function loadLastKey() {
 		var data = storageGetData();
 		if (!data || !data.lastKey)
-			return '1';
+			return 'старт';
 		return data.lastKey;
 	}
 
 	function saveFiltered(key) {
 		var data = storageGetData();
 		if (!data || !data.saves) data = {saves:{}};
-		data.lastKey = key || '1';
+		data.lastKey = key || 'старт';
 		data.saves[data.lastKey] = filteredIngredients;
 		if (storageSaveData(data)) {
 			storedKeys = Object.keys(data.saves);
@@ -1034,15 +1081,17 @@ function makeMixTitle(mixes) {
 		if (!data.potionsMap)
 			return false;
 		potionsMap = data.potionsMap;
-		if (data.favoritePotions)
+		if (data.favoritePotions) {
 			favoritePotions = data.favoritePotions;
+			favoritesIndexing();
+		}
 		return true;
 	}
 
 	function saveFavorites() {
 		var data = storageGetData();
 		if (!data) {
-			console.warn("Wron data in storage!");
+			console.warn("Wrong data in storage!");
 			return false;
 		}
 		data.favoritePotions = favoritePotions;
@@ -1097,27 +1146,47 @@ function makeMixTitle(mixes) {
 		var $data = $('#datapack');
 		var data = storageGetData();
 		if (data) {
-			$data.val(JSON.stringify(data.favoritePotions));
+			$data.html('<textarea>'+JSON.stringify(data.favoritePotions)+'</textarea>');
+			$('#data_count').html(favoritesCount());
 		} else {
 			$data.val('NO SAVES');
 		}
+		$('body').addClass('data-show');
+	}
+
+	function closeSavedData() {
+		$('body').removeClass('data-show');
+		$('#datapack textarea').remove();
 	}
 
 	// copy data area
 	function copyData() {
-		$('#datapack').select();
-		return document.execCommand('copy');
+		$('#datapack textarea').select();
+		if (document.execCommand('copy')) {
+			closeSavedData();
+			return true;
+		}
+		return false;
 	}
 
 	// parse data from area
 	function parseData() {
-		var data = $('#datapack').val();
+		var data = $('#datapack textarea').val();
 		try{ data = JSON.parse(data); }catch(e){
 			console.error(e);
 			return false;
 		}
-		favoritePotions = data;
-		return saveFavorites();
+		// validate potions structure
+		favoritePotions = favoritesValidate(data);
+		favoritesIndexing();
+		// save
+		if (saveFavorites()) {
+			updateFavorites();
+			alert('Загружено: '+favoritesCount());
+			closeSavedData();
+			return true;
+		}
+		return false;
 	}
 
 
@@ -1126,7 +1195,7 @@ function makeMixTitle(mixes) {
 
 	function showPotions(e) {
 		var lowPriotityDelta = 200;
-		var inid = $(this).attr('inid');
+		var inid = (this != window)? $(this).attr('inid') : false;
 		var id = ( e && e.data && e.data.id )? e.data.id : (inid)? inid : potionsId;
 		var isFull = (( e && e.data && e.data.isFull !== undefined )? e.data.isFull : potionsIsFull )? true : false;
 		var ingredient = ingredientsList[id];
@@ -1154,7 +1223,7 @@ function makeMixTitle(mixes) {
 			var ingredient = ingredientsList[id];
 			var best = isFull ? potionsMap[id].bestFull : potionsMap[id].best;
 			var price = parseInt(best.price) // ingredient best price
-			var cclass = (price > potionPrice)? ((price > potionPrice + priceDelta)? 'red' : 'gold') : ((price == potionPrice)? 'green' : '');
+			var cclass = getIngredientPriceColor(id, price, potionPrice);
 			var name = '<a inid="'+id+'" title="'+price+'" class="'+cclass+'">'+ingredient.name+'</a>';
 			return [cclass, name];
 		}
@@ -1180,7 +1249,7 @@ function makeMixTitle(mixes) {
 				var [cclass2, name2] = makeIngredientElement(inid, price);
 				span_class += ' inid'+inid+' '+cclass2;
 				// is favorite
-				if (isFavoritePotion(price, potionsId, mix[0], mix[1]))
+				if (isInFavoritePotions(price, potionsId, mix[0], mix[1]))
 					span_class += ' favorite';
 				// potion element
 				potions_list += '<span class="'+span_class+'">';
@@ -1218,7 +1287,7 @@ function makeMixTitle(mixes) {
 		$('#ingredient_name_div table tbody').append($tr);
 
 		// favorites filter
-		favoritesFilterStyleUpdate(potionsId);
+		favoritesFilterStyleUpdate();
 
 		// show and scroll
 		$('#potions_div').show();
@@ -1276,6 +1345,16 @@ function makeMixTitle(mixes) {
 	// Favorite potions functions
 
 	function favoritesFilterStyleUpdate(id) {
+		// define id
+		if (id == undefined) {
+			if ($('#potions_div:visible').length)
+				id = potionsId;
+			else if ($('#ingredient_filter:visible').length)
+				id = getRowId($('#ingredient_filter tbody tr').first());
+			else
+				id = 0;
+		}
+		// prepare css
 		var style = '';
 		if (id) {
 			style += '#favorites_div a[inid="'+id+'"] {font-weight: bold;}' + '\n';
@@ -1284,9 +1363,57 @@ function makeMixTitle(mixes) {
 		} else {
 			style += '#favorites_div .show-selected tbody tr {display:none;}' + '\n';
 		}
+		// apply css
 		$('#favorites-filter').html(style);
 	}
 
+	function favoritesIndexing() {
+		favoritesIndex = {};
+		favoritesBestPrice = {};
+		for (let [price, collections] of Object.entries(favoritePotions)) {
+			price = parseInt(price);
+			for (let [id1, mixes] of Object.entries(collections)) {
+				id1 = parseInt(id1);
+				favoritesBestPrice[id1] = favoritesBestPrice[id1]? Math.max(favoritesBestPrice[id1], price) : price;
+				mixes.forEach( function(mix, i) {
+					var potion = [id1, mix[0], mix[1]];
+					potion.sort(number_asc);
+					var idx = potion.join('-');
+					if (favoritesIndex[idx] == undefined) favoritesIndex[idx] = [];
+					favoritesIndex[idx].push({price:price,id1:id1});
+				});
+			}
+		}
+	}
+
+	function favoritesValidate(data) {
+		var result = {};
+		for (let [price, collections] of Object.entries(data)) {
+			price = parseInt(price);
+			result[price] = {};
+			for (let [id1, mixes] of Object.entries(collections)) {
+				id1 = parseInt(id1);
+				result[price][id1] = [];
+				mixes.forEach( function(mix, i) {
+					mix.sort(number_asc);
+					result[price][id1].push(mix);
+				});
+			}
+		}
+		return result;
+	}
+
+	function favoritesCount() {
+		var result = 0;
+		for (let [price, collections] of Object.entries(favoritePotions)) {
+			for (let [id1, mixes] of Object.entries(collections)) {
+				result += mixes.length;
+			}
+		}
+		return result;
+	}
+
+	// find array index of potion in favorites structure
 	function indexOfFavoritePotion(price, id1, id2, id3) {
 		var result = -1;
 		if (favoritePotions[price] && favoritePotions[price][id1]) {
@@ -1298,21 +1425,36 @@ function makeMixTitle(mixes) {
 		return result;
 	}
 
+	// check that mix already added
 	function isFavoritePotion(price, id1, id2, id3) {
 		return indexOfFavoritePotion(price, id1, id2, id3) > -1;
 	}
 
-	function favoritesAddPotion(price, id1, potion) {
-		potion.sort();
-		if (!isFavoritePotion(price, id1, potion[0], potion[1])) {
-			if (favoritePotions[price] == undefined) favoritePotions[price] = {};
-			if (favoritePotions[price][id1] == undefined) favoritePotions[price][id1] = [];
-			favoritePotions[price][id1].push(potion);
+	// check that potion like this already in favorites 
+	function isInFavoritePotions(price, id1, id2, id3) {
+		var potion = [id1,id2,id3];
+		potion.sort(number_asc);
+		var idx = potion.join('-');
+		if (favoritesIndex[idx]) {
 			return true;
 		}
 		return false;
 	}
 
+	// add mix into favorites structure
+	function favoritesAddPotion(price, id1, mix) {
+		mix.sort(number_asc);
+		if (!isFavoritePotion(price, id1, mix[0], mix[1])) {
+			if (favoritePotions[price] == undefined) favoritePotions[price] = {};
+			if (favoritePotions[price][id1] == undefined) favoritePotions[price][id1] = [];
+			favoritePotions[price][id1].push(mix);
+			favoritesIndexing();
+			return true;
+		}
+		return false;
+	}
+
+	// remove mix from favorites structure
 	function favoritesDeletePotion(price, potion) {
 		var id1 = potion[0];
 		var i = indexOfFavoritePotion(price, id1, potion[1], potion[2]);
@@ -1322,35 +1464,44 @@ function makeMixTitle(mixes) {
 				delete favoritePotions[price][id1];
 			if (Object.keys(favoritePotions[price]).length == 0)
 				delete favoritePotions[price];
+			favoritesIndexing();
 			return true;
 		}
 		return false;
 	}
 
+	// add favorite handler
 	function favoritesAdd(e) {
 		var $this = $(this);
 		var price = parseInt( $this.closest('tr').find('td').first().text() );
+		// determine potion
 		var id1 = parseInt(potionsId);
-		var potion = [];
+		var mix = [];
 		$this.closest('.potion').find('a').each( function() {
 			var id = parseInt($(this).attr('inid'));
 			if (id)
-				potion.push(id);
+				mix.push(id);
 		});
-		if (price && potion.length == 2) {
-			if (favoritesAddPotion( price, id1, potion )) {
+		if (price && mix.length == 2) {
+			// add & save
+			if (favoritesAddPotion( price, id1, mix )) {
 				saveFavorites();
+				// update favorites list
 				if ($('#favorites_div:visible').length)
 					updateFavorites();
+				// update favorite mark
+				$this.closest('.potion').addClass('favorite');
 			}
 		} else {
-			console.warn("Wrong potion",potion,price);
+			console.warn("Wrong potion:",price,id1,mix);
 		}
 	}
 
+	// remove favorite handler
 	function favoritesDelete(e) {
 		var $this = $(this);
 		var price = parseInt( $this.closest('tr').find('td').first().text() );
+		// determine potion
 		var potion = [];
 		$this.closest('.potion').find('a').each( function() {
 			var id = parseInt($(this).attr('inid'));
@@ -1358,13 +1509,15 @@ function makeMixTitle(mixes) {
 				potion.push(id);
 		});
 		if (price && potion.length == 3) {
+			// remove & save
 			if (favoritesDeletePotion( price, potion )) {
 				saveFavorites();
+				// update favorites list
 				if ($('#favorites_div:visible').length)
 					updateFavorites();
 			}
 		} else {
-			console.warn("Wrong potion",potion,price);
+			console.warn("Wrong potion:",price,potion);
 		}
 	}
 
@@ -1375,9 +1528,10 @@ function makeMixTitle(mixes) {
 		// ingredient element
 		var makeIngredientElement = function(id, potionPrice) {
 			var ingredient = ingredientsList[id];
-			var best = isFull ? potionsMap[id].bestFull : potionsMap[id].best;
+			var best = potionsMap[id].bestFull;
 			var price = parseInt(best.price) // ingredient best price
-			var cclass = (price > potionPrice)? ((price > potionPrice + priceDelta)? 'red' : 'gold') : ((price == potionPrice)? 'green' : '');
+			//var cclass = (price > potionPrice)? ((price > potionPrice + priceDelta)? 'red' : 'gold') : ((price == potionPrice)? 'green' : '');
+			var cclass = getIngredientPriceColor(id, price, potionPrice);
 			var html = '<a inid="'+id+'" title="'+price+'" class="'+cclass+'">'+ingredient.name+'</a>';
 			return html;
 		}
@@ -1429,22 +1583,19 @@ function makeMixTitle(mixes) {
 
 	function showFavorites() {
 		updateFavorites();
+		favoritesFilterStyleUpdate();
 
 		// show and scroll
-		$('#favorites_div').show();
+		$('body').addClass('favorites-show');
 		window.scrollTo(0,0);
 	}
 
 	function toggleFavorites() {
 		if ($('#favorites_div:visible').length) {
 			// hide
-			$('#favorites_div').hide();
+			$('body').removeClass('favorites-show');
 		} else {
-			updateFavorites();
-			favoritesFilterStyleUpdate(potionsId);
-			// show and scroll
-			$('#favorites_div').show();
-			window.scrollTo(0,0);
+			showFavorites();
 		}
 	}
 
@@ -1575,6 +1726,7 @@ function makeMixTitle(mixes) {
 
 			// prepare index
 			prepareIngredientsIndex(ingredientsList);
+			favoritesIndexing();
 			yield 6;
 
 			var cnt = Object.keys(ingredientsList).length;
@@ -1677,10 +1829,10 @@ function makeMixTitle(mixes) {
 		<b>Значения колонок:</b>
 	</p>
 	<ul style="list-style-type: none;">
-		<li><img alt="Weight" src="./files/ico_weight.png"> - Вес / Промежуточная цена зелья при выбранном ингредиенте<br></li>
-		<li><img alt="Value" src="./files/ico_gold.png" /> - Цена / Условная цена лучшего рецепта для выбранного ингредиента<br></li>
-		<li><img alt="Best" src="./files/ico_price.png" /> - Условная цена лучшего рецепта из отфильтрованных<br></li>
-		<li><img alt="Best" src="./files/ico_price_b.png" /> - Условная цена лучшего рецепта из всех ингредиентов<br></li>
+		<li><img alt="Weight" src="./files/ico_weight.png" /> - Вес / Промежуточная цена зелья при выбранном ингредиенте<br /></li>
+		<li><img alt="Value" src="./files/ico_gold.png" /> - Цена / Условная цена лучшего рецепта для выбранного ингредиента<br /></li>
+		<li><img alt="Best" src="./files/ico_price.png" /> - Условная цена лучшего рецепта из отфильтрованных<br/></li>
+		<li><img alt="Best" src="./files/ico_price_b.png" /> - Условная цена лучшего рецепта из всех ингредиентов<br/></li>
 	</ul>
 </div>
 
@@ -1689,23 +1841,30 @@ function makeMixTitle(mixes) {
 
 <div id="filtered_show_div">
 	<p>
-		<input class="abutton" type="button" value="Фильтр" onclick="showFiltered();">
-		<input class="abutton" type="button" value="❤" onclick="toggleFavorites();">
-		<input class="abutton" type="button" value="� " onclick="showSavedData(); $('#data_div').toggle()">
+		<input class="abutton" type="button" value="Фильтр" title="Редактировать фильтр ингредиентов" onclick="showFiltered()" />
+		<input class="abutton favor-bt ui-show" type="button" value="❤" title="Показать список любимых рецептов" onclick="toggleFavorites()" />
+		<input class="abutton favor-bt ui-hide" type="button" value="✗" title="Закрыть список любимых рецептов" onclick="$(body).removeClass('favorites-show')" />
+		<input class="abutton data-bt ui-show" type="button" value="�" title="Открыть экспорт/импорт" onclick="showSavedData()" />
+		<input class="abutton data-bt ui-hide" type="button" value="✗" title="Закрыть экспорт/импорт" onclick="closeSavedData()" />
 	</p>
 </div>
-<div id="filtered_list_div" style="display:none">
-	<p><input class="abutton" type="button" value="Отмена" onclick="closeFiltered();"></p>
+
+<div id="filtered_list_div" class="ui-hide">
+	<p><input class="abutton" type="button" value="Отмена" onclick="closeFiltered();" /></p>
 	<table>
 		<thead><tr><th>Имя фильтра</th></tr></thead>
 		<tbody><tr><td></td></tr></tbody>
 	</table>
-</div>
-<div id="filtered_div" style="display:none">
 	<p>
-		<input class="abutton" type="button" value="Отмена" onclick="closeFiltered();">
-		<input class="abutton" type="button" value="Ok" onclick="applyFiltered();">
-		<input class="abutton" type="button" value="Список" onclick="selectFiltered();">
+		<hr/>
+	</p>
+</div>
+
+<div id="filtered_div" class="ui-hide">
+	<p>
+		<input class="abutton" type="button" value="Отмена" onclick="closeFiltered();" />
+		<input class="abutton" type="button" value="Ok" onclick="applyFiltered();" />
+		<input class="abutton" type="button" value="Список" onclick="selectFiltered();" />
 	</p>
 	<table type="N">
 		<thead>
@@ -1752,26 +1911,36 @@ function makeMixTitle(mixes) {
 		<tbody><tr><td class="filter"></td></tr></tbody>
 	</table>
 	<p>
-		<input class="abutton" type="button" value="Отмена" onclick="closeFiltered();">
-		<input class="abutton" type="button" value="Ok" onclick="applyFiltered();">
-		<input class="abutton" type="button" value="Список" onclick="selectFiltered();">
+		<input class="abutton" type="button" value="Отмена" onclick="closeFiltered();" />
+		<input class="abutton" type="button" value="Ok" onclick="applyFiltered();" />
+		<input class="abutton" type="button" value="Список" onclick="selectFiltered();" />
 	</p>
-</div>
-
-<div id="data_div" style="display:none">
 	<p>
-		<input class="abutton" type="button" value="Скопировать" onclick="copyData()">
-		<input class="abutton" type="button" value="Загрузить" onclick="parseData()">
+		<hr/>
 	</p>
-	<textarea id="datapack" style="width:100%; height:50em;"></textarea>
-	<hr/>
 </div>
 
-<div id="favorites_div" style="display:none">
+<div id="data_div" class="ui-hide">
+	<p>
+		Экспорт/импорт списка любимых рецептов.
+		<span class="data-info">Кол-во рецептов: <b id="data_count"></b></span>
+	</p>
+	<p>
+		<input class="abutton" type="button" title="Скопировать данные в буфер обмена" value="Скопировать" onclick="copyData()" />
+		<input class="abutton" type="button" title="Добавить рецепты в список" value="Загрузить" onclick="parseData()" />
+		<input class="abutton" type="button" title="Заменить рецепты на новый список" value="Заменить" onclick="if (confirm('Удалить все старые рецепты?')) replaceByData()" />
+	</p>
+	<div id="datapack"></div>
+	<p>
+		<hr/>
+	</p>
+</div>
+
+<div id="favorites_div" class="ui-hide">
 	<table class="show-selected">
 		<thead>
 			<tr>
-				<th class="num_column"><img class="hd_ico" alt="Best" src="./files/ico_price.png"></th>
+				<th class="num_column"><img class="hd_ico" alt="Best" src="./files/ico_price.png" /></th>
 				<th class="ingredients_column">
 					<label style="float:right">
 					<input type="checkbox" checked onclick="$(this).closest('table').toggleClass('show-selected');"/>только выбранный</label>
@@ -1782,11 +1951,11 @@ function makeMixTitle(mixes) {
 		<tbody></tbody>
 	</table>
 	<p>
-		<input class="abutton" type="button" value="Закрыть" onclick="$('#favorites_div').hide();">
+		<hr/>
 	</p>
 </div>
 
-<div id="potions_div" style="display:none">
+<div id="potions_div" class="ui-hide">
 	<div id="ingredient_name_div" style="margin-top: 1.1em;">
 		<table class="ingredients">
 			<thead></thead>
@@ -1794,14 +1963,14 @@ function makeMixTitle(mixes) {
 		</table>
 	</div>
 	<p>
-		<input class="abutton aback" type="button" value="&lt; Назад" onclick="prevPotions();">
-		<input class="abutton afull" type="button" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});">
-		<input class="abutton" type="button" value="Закрыть" onclick="$('#potions_div').hide(); favoritesFilterStyleUpdate(0);">
+		<input class="abutton aback" type="button" value="&lt; Назад" onclick="prevPotions();" />
+		<input class="abutton afull" type="button" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});" />
+		<input class="abutton" type="button" value="Закрыть" onclick="$('#potions_div').hide(); favoritesFilterStyleUpdate();" />
 	</p>
 	<table class="no-red">
 		<thead>
 			<tr>
-				<th class="num_column"><img class="hd_ico" alt="Best" src="./files/ico_price.png"></th>
+				<th class="num_column"><img class="hd_ico" alt="Best" src="./files/ico_price.png" /></th>
 				<th class="ingredients_column">
 					<label style="float:right">
 					<input type="checkbox" onclick="$(this).closest('table').toggleClass('no-red');"/>красные</label>
@@ -1814,34 +1983,45 @@ function makeMixTitle(mixes) {
 		<tbody></tbody>
 	</table>
 	<p>
-		<input class="abutton aback" type="button" value="&lt; Назад" onclick="prevPotions();">
-		<input class="abutton afull" type="button" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});">
-		<input class="abutton" type="button" value="Закрыть" onclick="$('#potions_div').hide(); favoritesFilterStyleUpdate(0);">
+		<input class="abutton aback" type="button" value="&lt; Назад" onclick="prevPotions();" />
+		<input class="abutton afull" type="button" value="Показать" onclick="showPotions({data:{isFull:!potionsIsFull}});" />
+		<input class="abutton" type="button" value="Закрыть" onclick="$('#potions_div').hide(); favoritesFilterStyleUpdate();" />
+	</p>
+</div>
+
+<div id="potion_info_div" class="ui-hide">
+	<p>Список ингредиентов, которые имеют общие эффекты с:</p>
+	<table class="ingredients">
+		<thead></thead>
+		<tbody></tbody>
+	</table>
+	<p>
+		<input class="abutton" type="button" value="Закрыть" onclick="$('#potion_info_div').hide();" />
 	</p>
 </div>
 
 <div id="filter_div">
-	<div id="all_ingredients" style="display: block;">
+	<div id="all_ingredients">
 		<p>Список ингредиентов.</p>
 	</div>
 
-	<div id="ingredient_filter" style="display: none;">
+	<div id="ingredient_filter" class="ui-hide">
 		<p>Список ингредиентов, которые имеют общие эффекты с:</p>
 		<table class="ingredients">
 			<thead></thead>
 			<tbody></tbody>
 		</table>
 		<p>Совпавшие эффекты выделены <span class="highlighted">жирным</span></p>
-		<input class="abutton" type="button" value="Показать все" onclick="showAll();">
+		<input class="abutton" type="button" value="Показать все" onclick="showAll();" />
 	</div>
 
-	<div id="effects_filter" style="display: none;">
+	<div id="effects_filter" class="ui-hide">
 		<p>Список ингредиентов которые имеют эффект <a id="effect_name" class="highlighted"></a></p>
-		<input class="abutton" type="button" value="Показать все" onclick="showAll();">
+		<input class="abutton" type="button" value="Показать все" onclick="showAll();" />
 	</div>
 </div>
 
-<div class="right-float-option"><label><input type="checkbox" id="show_filtered" onclick="$('body').toggleClass('show_filtered');">Отображать отфильтрованные.</label></div>
+<div class="right-float-option"><label><input type="checkbox" id="show_filtered" onclick="$('body').toggleClass('show_filtered');" />Отображать отфильтрованные.</label></div>
 <div id="ingredients_table_div">
 <table class="tablesorter ingredients" id="ingredients_table">
 	<thead>
@@ -1849,12 +2029,12 @@ function makeMixTitle(mixes) {
 			<th class="name_column">Название</th>
 			<th class="effect_column">Эффекты</th>
 			<th class="num_column hide-on-mobile"><img alt="Weight" src="./files/ico_weight.png" /></th>
-			<th class="num_column"><img alt="Value" src="./files/ico_gold.png" /></th>
+			<th class="num_column"><img alt="Value" src="./files/ico_gold.png"/></th>
 			<th class="num_column case-on-mobile"><img alt="Best" src="./files/ico_price.png" /></th>
 			<th class="num_column hide-on-mobile"><img alt="Best" src="./files/ico_price_b.png" /></th>
 		</tr>
 	</thead>
-	<tbody></tbody>
+	<tbody><tr><td colspan="6"><span style="color:red"><b>JavaScript Error!</b></span></td></tr></tbody>
 </table>
 </div>
 
